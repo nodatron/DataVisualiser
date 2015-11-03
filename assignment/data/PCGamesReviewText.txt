@@ -1,0 +1,78 @@
+Data from http://www.metacritic.com/browse/games/score/metascore/all/pc/filtered?sort=desc
+Only taking the top 50 games from the list as of 25/10/2015
+
+Genres: 
+	1. Action
+	2. Action Adventure
+	3. Adventure
+	4. Strategy
+	5. RPG
+	6. Simulation
+	7. Puzzle
+	8. Sports
+	10. MMORPG
+	12. Multiplayer
+
+Years:
+	1. 95-99
+	2. 00-04
+	3. 05-09
+	5. 10-14
+	6. 15+
+
+Half-LIfe 2, Nov 16 2004, Action, 96/92, Valve Software, M, 1
+Grand Theft Auto V, April 14 2015, Action Adventure, 96/72, Rockstar North, M, 1
+The OrangeBox, Oct 10 2007, Action/Puzzle/Multiplayer, 96/94, Valve Software, M, 1/upto 16
+Half-Life, Oct 31 1998, Action, 96/91, Valve Software, M, 1-32
+BioShock, Aug 21 2007, Action, 96/84, Irrational Games/2k Marin M, 1
+Baldur's Gate II: Shadow of Amn, Sep 24 2000, RPG, 95,93, BioWare, T, 1-6
+Portal 2, Apr 19 2011, Puzzle, 95/88, Valve Software, E10+, 1-2
+The Elder Scrolls V: Skyrim, Nov 11 2011, RPG, 94/80, Bethesda Games Studio, M, 1
+Mass Effect 2, Jan 26 2010, RPG, 94/87, BioWare, M, 1
+Grand Theft Auto: Vice City, May 12 2003, Action Adventure, 94/88, Rockstar North, M, 1
+Civilization II, Feb 29 1996, Strategy, 94/90, MPS Labs, E, 1 
+Quake, Jun 22 1996, 94/88,  id Software, Action, M, 1-16 
+BioShock Infinite,Mar 26 2013, 94/85, Irrational Games, Action, M, 1
+The Witcher 3: Wild Hunt,Mar 19 2015, 94/92, CD Projekt Studio Red, RPG, M, 1
+The Elder Scrolls IV: Oblivion,Mar 20 2006, 94/80, Bethesda Games Studio, RPG, M, 1
+Grim Fandango,Sep 30 1998, 94/91, LucasArts, Adventure, T, 1
+Undertale, Sep 15 2015, 94/83, tobyfox, RPG, N/A, 1
+Diablo,Nov 30 1996, 94/87, Blizzard Entertainment, RPG, M, 1-4
+Sid Meier's Civilization IV,Oct 25 2005, 94/82, Firaxis Games, Strategy, E10+, 1-12
+Company of Heroes, Sep 13 2006, 93/89, Relic, Strategy, M, 1-8
+Unreal Tournament 2004, Mar 16 2004, 93/89, Epic Games, Action, M, 1-32
+Starcraft II: Wings of Liberty, Jul 27 2010, 92/82, Blizzard Entertainment, Strategy, T, Multiplayer 
+Minecraft, 	May 10 2009, 93/74, Mojang AB, Action Adventure/Sandbox, E, 1/Multiplayer 
+Grand Theft Auto III, May 20 2002, 93/84, DMA Design, Action Adventure, M, 1
+Homeworld, Aug 31 2009, 93/89, Relic, Strategy, E, 1-8
+Star Wars: Knights of the Old Republic,Nov 18 2003, 93/90, BioWare, RPG, T, 1
+World of Warcraft, Nov 23, 2004, 93/72, Blizzard Entertainment, MMORPG, T, MMO
+Grand Theft Auto: San Andreas,Jun 7 2005, 93/88, Rockstar North, Action Adventure, M, 1
+Call of Duty 4: Modern Warfare,	Nov 5 2007, 92/85, Infinity Ward, Action, M, 1-16
+Warcraft III: Reign of Chaos, Jul 3 2002, Blizzard Entertainment, Strategy, T, 1
+The Sims, Jan 31 2000, 92/78, Maxis, Simulation, T, 1
+Sid Meier's Gettyburg!, Sep 30 1997, 92/74, Firaxis Games, Strategy, E, 1-8
+World of Soccer Winning Eleven 7 International,Apr 9 2004, 92/79, KCET, Sport, E, 1-2
+Team Fortress 2, Apr 8 2008, 92/92, Valve Corporation, Action, M, 1-24
+System Shock 2,	Aug 11 1999, 92/91, Looking Glass Studios/Irrational Games, Action Adventure, M, 1
+Tom Clancy's Splinter Cell: Chaos Theory,Mar 28 2005, 92/88, Ubisoft Montreal, Action Adventure, M, 1-4
+Rome: Total War, Sep 22 2004, 92/91, Creative Assembly, Strategy, T, 1-8		
+Thief: The Dark Project,Nov 30 1998, 92/91, Looking Glass Studios, Action Adventure, M, 1
+Age of Empires II: The Age of Kings, Sep 30 1999, 92/90, Ensemble Studios, Strategy, T, 1
+Unreal Tournament(1999), Nov 30 1999, 92/91, Epic Games, Action, M, 1-32
+Sid Meier's Alpha Centauri, Feb 12 1999, 92/92, Firaxis Games, Strategy, E, 1
+Galactic Civilizations II: Twilight of the Armour,Apr 30 2008, 92/84, Stardock, Strategy, N/A, 1
+Tiger Woods PGA Tour 2003,Oct 31 2002, 92/60, Headgate, Sports, E, 1-8
+Dishonoured, Oct 9, 2012, 91,83, Arkane Studios, Action Adventure, M, 1
+Medal of Honour: Allied Assault, Jan 20, 2002, 91/86, 2015 Inc, Action, T, 1
+Myth: The Fallen Lords, Oct 31 1997, Bungie Software, Strategy, M, 1-16
+World of Warcraft: Wraith of the Lich King, Nov 13 2008, 91/73, Blizzard Entertainment, MMORPG, T, MMO
+F1 Challenge '99-'02,Jun 24 2003, 91/83, Electronic Arts, Driving(Sports), E, 1-8
+Baldur's Gate, Nov 30 1998, 91/90, BioWare, RPG, T, 1-6
+IL-2 Sturmovik, Nov 18 2001, 91/87, 1C, Simulation, T, 1-32
+
+Ideas for the Visualizations that i can draw:
+	1. For the Developers and for the Genres we can do the biggest word thing for them
+	2. Do a bar chart with different colours for the user and the critics score, make it look like it is see through for the one infront
+	3. Do circles that are bigger for the months, days and years that are more popular.  OR any other type of shape that I can think of 
+	4.   
