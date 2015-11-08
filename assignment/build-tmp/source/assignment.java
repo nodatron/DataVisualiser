@@ -15,7 +15,7 @@ import java.io.IOException;
 public class assignment extends PApplet {
 
 public void setup () {
-	size (1000, 800);
+	size (1920, 1080);
 	background (255);
 
 	ArrayList<GameData> games = new ArrayList<GameData> ();
@@ -49,6 +49,7 @@ public void drawBarChart (ArrayList<GameData> gameData) {
 	float y = height - border - barWidth; // - barwidth because it drwas down from the x,y point down
 
 
+
 	line (border, height - border, border, border);
 	line (border, height - border, width - border, height - border);
 
@@ -59,24 +60,40 @@ public void drawBarChart (ArrayList<GameData> gameData) {
 		rect (border, y, map (gameData.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
 
 		//text for the y axis
-		fill(0);
-		text (gameData.get(i).gameName, border + 20.0f, y + (barWidth * 0.9f));
+		fill (0);
+		text (gameData.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
 		y -= barWidth;
 	}
 
-	for (int i = 0; i <= gameData.size (); ++i) {
-		float yaxisLine = height - border - ((float)i * barWidth);
-		line (border, yaxisLine, border * 0.8f, yaxisLine);
-	}
+	// for (int i = 0; i <= gameData.size (); ++i) {
+	// 	float yaxisLine = height - border - ((float)i * barWidth);
+	// 	line (border, yaxisLine, border * 0.8f, yaxisLine);
+	// }
+
+	//Key for the graph
+	fill (255, 0, 0);
+	rect (border, height * 0.02f, border, height * 0.02f);
+	fill(0);
+	text ("Critic Review", border + (width * 0.02f), height * 0.035f);
+	fill (0, 255, 0);
+	rect (border, height * 0.06f, border, height * 0.02f);
+	fill(0);
+	text ("User Review", border + (width * 0.02f), height * 0.075f);
+
+	fill(0);
+	textAlign(CENTER, CENTER);
+	text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 	for (int i = 0; i <= 10; ++i) {
 		float xaxisLine = border + ((horRange / 10.0f) * (float) i);
 		line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+		text(i * 10, xaxisLine, height - (border * 0.6f));
 	}
 }
 
 
 public void drawTrendGraph (ArrayList<GameData> gameData) {
+	//TODO: Put label on the xaxis and put in a key
 	float border = width * 0.1f;
 	float verticalRange = height - (border * 2.0f);
 	float horRange = width - (border * 2.0f);
@@ -98,6 +115,12 @@ public void drawTrendGraph (ArrayList<GameData> gameData) {
 		line (x1, y1, x2, y2);
 		stroke (0, 255, 0);
 		line(x3, y3, x4, y4);
+
+		fill (0);
+		if(i % 2 == 0)
+			text (gameData.get(i).gameName, x1, height - (border * 0.6f));
+		else 
+			text (gameData.get(i).gameName, x1, height - (border * 0.4f));
 	}
 
 	stroke(0);
@@ -109,9 +132,15 @@ public void drawTrendGraph (ArrayList<GameData> gameData) {
 		line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
 	}
 
+	fill(0);
+	textAlign(CENTER, CENTER);
+	text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+
 	for (int i = 0; i <= 10; ++i) {
 		float yaxisLine = height - border - ((verticalRange / 10.0f) * (float) i);
 		line (border, yaxisLine, border * 0.8f, yaxisLine);
+		text(i * 10, border * 0.6f, yaxisLine);
+
 	}
 }
 /* NOTE: Draws a trend graph
@@ -150,7 +179,7 @@ class GameData {
 	float userReviewScore;
 	String gameName;
 	String developerName;
-
+	
 	GameData (String line) {
 		String[] parts = line.split(",");
 

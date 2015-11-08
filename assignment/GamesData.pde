@@ -4,7 +4,7 @@ class GameData {
 	float userReviewScore;
 	String gameName;
 	String developerName;
-
+	
 	GameData (String line) {
 		String[] parts = line.split(",");
 
