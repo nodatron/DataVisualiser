@@ -10,8 +10,8 @@ Genres:
 	6. Simulation
 	7. Puzzle
 	8. Sports
-	10. MMORPG
-	12. Multiplayer
+	9. MMORPG
+	
 
 Years:
 	1. 95-99
