@@ -20,8 +20,11 @@ public void setup () {
 
 	ArrayList<GameData> games = new ArrayList<GameData> ();
 	games = populate ();
+
+	ArrayList<Genre> gameGenre = populateGenre ("PCGamesGenre.csv");
+	
 	println (games.size());
-	drawVisualisationForGenre ();
+	drawVisualisationForGenre (gameGenre);
 }
 
 
@@ -146,38 +149,37 @@ public void drawTrendGraph (ArrayList<GameData> gameData) {
 }
 
 /*
-	TODO: Make some sort of visualsation for the most popular genre of game 
-	TODO: Read in the values of the most popular genre in the file PCGamesGenre.csv
-	TODO: Maybe make an icon for each of the genres myself, gun for action
+TODO: Make some sort of visualsation for the most popular genre of game 
+TODO: Read in the values of the most popular genre in the file PCGamesGenre.csv
+TODO: Maybe make an icon for each of the genres myself, gun for action
 
 */
-public ArrayList<Integer> readInGenre (String filename) {
+public ArrayList populateGenre (String filename) {
 
-	ArrayList<Integer> values = new ArrayList<Integer> ();
+	ArrayList<Genre> genre = new ArrayList<Genre> ();
 	String[] lines = loadStrings(filename);
 
 	for (String s : lines) {
-		values.add(Integer.parseInt(s));
-		println(s);
+		Genre values = new Genre (s);
+		genre.add (values);
 	}
-	println(values);
-	return values;
+
+	return genre;
 }
 
-public int sumGenre (ArrayList<Integer> gameGenre) {
+public int sumGenre (ArrayList<Genre> gameGenre) {
 	int sum = 0;
 
-	for (Integer i : gameGenre) {
-		sum += i;
+	for (Genre g : gameGenre) {
+		sum += g.amount;
 	}
-
+	
 	return sum;
 }
-public void drawVisualisationForGenre () {
+public void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
 
 	//read in from the csv file
-	ArrayList<Integer> gameGenre = readInGenre ("PCGamesGenre.csv");
-	println(gameGenre);
+	
 	//TODO: Come up with icons 
 	//	1.Action is a gun with the ammo count as its percentage of the games
 	//	2.Action Adventure is a map with a knife on it 
@@ -193,15 +195,27 @@ public void drawVisualisationForGenre () {
 
 	//Not want i want it to be just testing if the other functions work
 	int sum = sumGenre (gameGenre);
- 	float x = width / gameGenre.size ();
- 	float y = height / gameGenre.size ();
+ 	float horRange = width / 3.0f;
+ 	float vertRange = height / 3.0f;
+ 	float radius = width;
+ 	float x = 0.0f;
+ 	float y = vertRange / 2.0f;
+
 	for (int i = 0; i < gameGenre.size (); ++i) {
-		ellipse(x, y, ((width / gameGenre.size()) / 2), ((height / gameGenre.size()) / 2));
-		println(gameGenre.get(i));
-		float percentage = ((gameGenre.get(i) / sum) * 100);
-		println("Percentage of the games: " + percentage + "%");
-		x += (width / gameGenre.size ());
-		y += (height / gameGenre.size ());
+
+		if (i % 3 == 0) {
+			x = horRange / 2.0f;
+			//only need y to increase after the first loop
+			if (i > 0) {
+				y += vertRange;
+			}
+		}
+		float ratio = (float) gameGenre.get(i).amount / (float) sum;
+		fill(random(0, 255), 0, 0);
+		ellipse(x, y, radius * ratio, radius * ratio);
+		fill(255);
+
+		x += horRange; 
 	}
 }
 
@@ -351,6 +365,23 @@ class GameData {
 
 }
 
+class Genre {
+	int amount;
+	String genre;
+
+	Genre () {
+		amount = 0;
+		genre = "";
+	}
+
+	Genre (String line) {
+		String[] s = line.split(",");
+		amount = Integer.parseInt(s[0]);
+		genre = s[1];
+	}
+
+	
+}
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "assignment" };
     if (passedArgs != null) {
