@@ -8,7 +8,7 @@ void setup () {
 	ArrayList<Genre> gameGenre = populateGenre ("PCGamesGenre.csv");
 	
 	println (games.size());
-	drawVisualisationForGenre (gameGenre);
+	drawTrendGraph (games);
 }
 
 

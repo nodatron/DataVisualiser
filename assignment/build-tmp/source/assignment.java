@@ -24,7 +24,7 @@ public void setup () {
 	ArrayList<Genre> gameGenre = populateGenre ("PCGamesGenre.csv");
 	
 	println (games.size());
-	drawVisualisationForGenre (gameGenre);
+	drawTrendGraph (games);
 }
 
 
@@ -177,10 +177,9 @@ public int sumGenre (ArrayList<Genre> gameGenre) {
 	return sum;
 }
 public void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
-
-	//read in from the csv file
 	
 	//TODO: Come up with icons 
+	//TODO: Replace the ellipses with the icons that i will make later
 	//	1.Action is a gun with the ammo count as its percentage of the games
 	//	2.Action Adventure is a map with a knife on it 
 	// 	3.Adventure is a map
