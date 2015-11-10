@@ -202,7 +202,28 @@ void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
 	}
 }
 
+/*
+	Find the most popular dev updated
+		-compare the values in ArrayList<GameData> with the dev name in ArrayList<Developer>
+		-add 1 to the freq variable if it is a match
+		-do a wordle for to show the most popular developer
+*/
+ArrayList readInDevs (String filename) {
+	String[] values = loadStrings (filename);
+	ArrayList<Developer> devs = new ArrayList<Developer> ();
 
+	for (String s : values) {
+		Developer dev = new Developer (s);
+		devs.add (dev);
+	}
+
+	return devs;
+}
+
+void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
+								 ArrayList<Developer> devs) {
+	
+}
 
 
 //Find the most popular Developer
