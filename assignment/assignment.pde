@@ -1,3 +1,4 @@
+//Please Note parts of this project will only work in processing 3
 void setup () {
 	size (1000, 800);
 	background (255);
@@ -10,7 +11,7 @@ void setup () {
 	ArrayList<Developer> devs = readInDevs ("PCGamesDev.csv");
 
 	//println (games.size());
-	//drawTrendGraph (games);
+	// drawTrendGraph (games);
 
 	drawDeveloperVisualization (games, devs);
 }
@@ -249,45 +250,100 @@ int findMostFreqDeveloper (ArrayList<Developer> devs) {
 	return maxIndex;
 }
 
+void drawFolderIcon () {
+	float border = width * 0.05f;
+	float vertRange = height - (border * 2.0f);
+	float horRange = width - (border * 2.0f);
+
+	stroke (245, 241, 222);
+	fill (245, 241, 222);
+	rect (border, border, horRange, vertRange);
+	rect (border, border, (width * 0.2f), - (width * 0.02f));
+
+	fill (0);
+	text ("Devloper", (border * 1.05f), border);
+}
+
 void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
 								 ArrayList<Developer> devs) {
-	//Need to scale the text based off of some sort of ratio based on developer frequency
-	//Need to get the frequency of each developer aswell
-	//need to have a fuction to find the max
 	devs = developerFrequency (gameInfo, devs);
-	int maxIndex = findMostFreqDeveloper (devs);
+	drawFolderIcon ();
 
-	//TODO:make the scale for the words
-	//FIXME: Only made it work with normal sized words
-	//FIXME: The code in here is ust shit fi it
-	//FIXME: Need to come up with a better way of displaying the data
-	float wordsPerLine = 10.0f;
-	int lanes = devs.size () / (int) wordsPerLine; //NOTE: using int so it returns a whole number
-	int remainder = devs.size () % (int) wordsPerLine;
-	print(lanes);
-	float laneHeight = height / (float) lanes;
-	float normalGap = width / wordsPerLine;
-	float middleGap = width / (float) (wordsPerLine + remainder);
-	float x = 0.0f, y = laneHeight / 2.0f;
-	fill(70, 70, 70);
-	for (int i = 0 ; i < devs.size () ; i ++) {
-		
-		if (i >= wordsPerLine && i < (wordsPerLine + wordsPerLine + remainder)) {
-			x += middleGap;
-		}
+	int points = devs.size ();
+	float cx = width / 2.0f;
+	float cy = height / 2.0f;
+	float radius = width * 0.2f;
+	float theta = 0.0f;
+	float theataInc = TWO_PI / 2.0f * (float) points;
+	float lastX = cx;
+	float lastY = cy - radius;
 
-		if(i == (int) wordsPerLine) { 
-			y += laneHeight;
-			x = 0;
-		}
-		if(i == (int) (devs.size() - wordsPerLine)) { 
-			y += laneHeight;
-			x = 0;
-		}
-		text (devs.get(i).name, x, y);
-		x += normalGap;
+	
+
+	for (int i = 0 ; i < points * 2 ; ++i) {
+		//dont want it to draw when mod 2 == 0
+		float theata = (float) i * theataInc;
+		float x, y;
+
+		//FIXME: The points arent changing 
+		x = cx + sin(theta) * radius;
+		y = cy - cos(theta) * radius;
+
+		stroke (0);
+		ellipse (x, y, 10, 10);
+		line(x, y, lastX, lastY);
+		println(x + ", " + y + ", " + i + ", " + lastX + ", " + lastY);
+      	lastX = x;
+      	lastY = y; 
 	}
+
+	ellipseMode(RADIUS);
+	fill(155, 111, 155);
+	ellipse (cx, cy, radius, radius);
+	ellipseMode(CENTER);
+	fill(255);
+	ellipse (cx, cy, radius, radius);
 }
+
+// void drawDeveloperVisualization1 (ArrayList<GameData> gameInfo,
+// 								 ArrayList<Developer> devs) {
+// 	//Need to scale the text based off of some sort of ratio based on developer frequency
+// 	//Need to get the frequency of each developer aswell
+// 	//need to have a fuction to find the max
+// 	devs = developerFrequency (gameInfo, devs);
+// 	int maxIndex = findMostFreqDeveloper (devs);
+
+// 	//TODO:make the scale for the words
+// 	//FIXME: Only made it work with normal sized words
+// 	//FIXME: The code in here is ust shit fi it
+// 	//FIXME: Need to come up with a better way of displaying the data
+// 	float wordsPerLine = 10.0f;
+// 	int lanes = devs.size () / (int) wordsPerLine; //NOTE: using int so it returns a whole number
+// 	int remainder = devs.size () % (int) wordsPerLine;
+// 	print(lanes);
+// 	float laneHeight = height / (float) lanes;
+// 	float normalGap = width / wordsPerLine;
+// 	float middleGap = width / (float) (wordsPerLine + remainder);
+// 	float x = 0.0f, y = laneHeight / 2.0f;
+// 	fill(70, 70, 70);
+// 	for (int i = 0 ; i < devs.size () ; i ++) {
+		
+// 		if (i >= wordsPerLine && i < (wordsPerLine + wordsPerLine + remainder)) {
+// 			x += middleGap;
+// 		}
+
+// 		if(i == (int) wordsPerLine) { 
+// 			y += laneHeight;
+// 			x = 0;
+// 		}
+// 		if(i == (int) (devs.size() - wordsPerLine)) { 
+// 			y += laneHeight;
+// 			x = 0;
+// 		}
+// 		text (devs.get(i).name, x, y);
+// 		x += normalGap;
+// 	}
+// }
 
 
 //Find the most popular Developer
