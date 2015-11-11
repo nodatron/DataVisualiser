@@ -23,8 +23,12 @@ public void setup () {
 
 	ArrayList<Genre> gameGenre = populateGenre ("PCGamesGenre.csv");
 	
-	println (games.size());
-	drawTrendGraph (games);
+	ArrayList<Developer> devs = readInDevs ("PCGamesDev.csv");
+
+	//println (games.size());
+	//drawTrendGraph (games);
+
+	drawDeveloperVisualization (games, devs);
 }
 
 
@@ -202,7 +206,7 @@ public void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
 
 	for (int i = 0; i < gameGenre.size (); ++i) {
 
-		if (i % 3 == 0) {
+		if (i % 3 == 0) { //FIXME: need to change the hard coding here 
 			x = horRange / 2.0f;
 			//only need y to increase after the first loop
 			if (i > 0) {
@@ -218,7 +222,86 @@ public void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
 	}
 }
 
+/*
+	Find the most popular dev updated
+		-compare the values in ArrayList<GameData> with the dev name in ArrayList<Developer>
+		-add 1 to the freq variable if it is a match
+		-do a wordle for to show the most popular developer
+*/
+public ArrayList readInDevs (String filename) {
+	String[] values = loadStrings (filename);
+	ArrayList<Developer> devs = new ArrayList<Developer> ();
 
+	for (String s : values) {
+		Developer dev = new Developer (s);
+		devs.add (dev);
+	}
+
+	return devs;
+}
+
+public ArrayList developerFrequency (ArrayList<GameData> gameInfo,
+							  ArrayList<Developer> devs) {
+	for (int i = 0 ; i < gameInfo.size () ; i ++) {
+		for (int j = 0 ; j < devs.size () ; j ++) {
+			if (gameInfo.get(i).developerName.equals (devs.get(j).name)) {
+				devs.get(j).freq ++;
+			}
+		}
+	}
+
+	return devs;
+}
+
+public int findMostFreqDeveloper (ArrayList<Developer> devs) {
+	int maxIndex = 0;
+
+	for (int i = 0 ; i < devs.size () ; i ++) {
+		if (devs.get(i).freq > devs.get(maxIndex).freq) {
+			maxIndex = i;
+		}
+	}
+
+	return maxIndex;
+}
+
+public void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
+								 ArrayList<Developer> devs) {
+	//Need to scale the text based off of some sort of ratio based on developer frequency
+	//Need to get the frequency of each developer aswell
+	//need to have a fuction to find the max
+	devs = developerFrequency (gameInfo, devs);
+	int maxIndex = findMostFreqDeveloper (devs);
+
+	//TODO:make the scale for the words
+	//FIXME: Only made it work with normal sized words
+	float wordsPerLine = 10.0f;
+	int lanes = devs.size () / (int) wordsPerLine; //NOTE: using int so it returns a whole number
+	int remainder = devs.size () % (int) wordsPerLine;
+	print(lanes);
+	float laneHeight = height / (float) lanes;
+	float normalGap = width / wordsPerLine;
+	float middleGap = width / (float) (wordsPerLine + remainder);
+	float x = 0.0f, y = laneHeight / 2.0f;
+	fill(70, 70, 70);
+	for (int i = 0 ; i < devs.size () ; i ++) {
+		
+		if (i >= wordsPerLine && i < (wordsPerLine + wordsPerLine + remainder)) {
+			x += middleGap;
+		}
+
+		if(i == (int) wordsPerLine) { 
+			y += laneHeight;
+			x = 0;
+		}
+		if(i == (int) (devs.size() - wordsPerLine)) { 
+			y += laneHeight;
+			x = 0;
+		}
+		text (devs.get(i).name, x, y);
+		x += normalGap;
+	}
+}
 
 
 //Find the most popular Developer
@@ -227,125 +310,16 @@ public void drawVisualisationForGenre (ArrayList<Genre> gameGenre) {
 	Store this in an arraylist of ints in which i know which developer belong to which int
 	figure out what way i want to display the result that i get
 */
-/*void findPopularDev (ArrayList<GameData> gameInfo) {
-	ArrayList<Interger> popularDev = new ArrayList<Interger> ();
-	ArrayList<String> gameDevs = findGameDevs (gameInfo);
-	switch()
-}
+class Developer {
+	String name;
+	int freq;
 
-//NOTE: Takes the names of the game devs and gets the frequency
-//FIXME: Need to figure out a way to add frequency values to an array list when i dont know the amount of values that need to be in the arraylist
-//FIXME: function is unusable at the moment
-ArrayList<String> findGameDevs (ArrayList<GameData> gameInfo) {
-	ArrayList<Integer> gameDevs = new ArrayList<Integer> ();
-	for (GameData g : gameInfo) {
-		switch (g.developerName) {
-			case "Valve Software":
-				gameDev.get(0)++;
-				 break;
-			case "Rockstar North":
-				gameDev.get(1)++;
-				break;
-			case "Irrational Games 2k Marin":
-				gameDev.get(2)++;
-				gameDev.get(3)++;
-				break;
-			case "BioWare":
-				gameDev.get(4)++;
-				break;
-			case "Bethesda Games Studios":
-				gameDev.get(5)++; 
-				break;
-			case "MPS Labs":
-				gameDev.get(6)++;
-				break;
-			case "id Software":
-				gameDev.get(7)++;
-				break;
-			case "CD Projekt Red":
-				gameDev.get(8)++;
-				break;
-			case "LucasArts":
-				gameDev.get(9)++;
-				break;
-			case "tobyfox":
-				gameDev.get(10)++;
-				break;
-			case "Blizzard Entertainment":
-				gameDev.get(11)++;
-				break;
-			case "Firaxis Games":
-				gameDev.get(12)++;
-				break;
-			case "Relic":
-				gameDev.get(13)++;
-				break;
-			case "Epic Games":
-				gameDev.get(14)++;
-				break;
-			case "Mojang AB":
-				gameDev.get(15)++;
-				break;
-			case "DMA Design":
-				gameDev.get(16)++;
-				break;
-			case "Infinity Ward":
-				gameDev.get(17)++;
-				break;
-			case "Maxis":
-				gameDev.get(18)++;
-				break;
-			case "KCET":
-				gameDev.get(19)++;
-				break;
-			case "Looking Glass Studios Irrational Games":
-				gameDev.get(20)++;
-				gameDev.get(2)++;
-				break;
-			case "Ubiosoft Montreal":
-				gameDev.get(21)++;
-				break;
-			case "Creative Assembly":
-				gameDev.get(22)++;
-				break;
-			case "Looking Glass Studios":
-				gameDev.get(20)++;
-				break;
-			case "Ensemble Studios":
-				gameDev.get(23)++;
-				break;
-			case "Stardock":
-				gameDev.get(24)++;
-				break;
-			case "Headgate":
-				gameDev.get(25)++;
-				break;
-			case "Arkane Studios":
-				gameDev.get(26)++;
-				break;
-			case "2015 Inc":
-				gameDev.get(27)++;
-				break;
-			case "Bungie Software":
-				gameDev.get(28)++;
-				break;
-			case "Electronic Arts":
-				gameDev.get(29)++;
-				break;
-			case "1C":
-				gameDev.get(30)++;
-				break;
-			default:
-				throw IllegalArumentException("Invalid game Developer " + g.developerName);
-				break;
-		}
-		gameDevs.add( gameDev);
+	Developer (String line) {
+			name = line;
+			freq = 0;
 	}
-	return gameDevs
-}*/
 
-
-
+}
 class GameData {
 
 	float criticReviewScore;
