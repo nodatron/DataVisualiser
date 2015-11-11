@@ -1,102 +1,10 @@
-import processing.core.*; 
-import processing.data.*; 
-import processing.event.*; 
-import processing.opengl.*; 
-
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.io.File; 
-import java.io.BufferedReader; 
-import java.io.PrintWriter; 
-import java.io.InputStream; 
-import java.io.OutputStream; 
-import java.io.IOException; 
-
-public class Assignment extends PApplet {
-
-//Please Note parts of this project will only work in processing 3
-
-public void setup () {
-	
-	background (255);
-
-	Draw draw = new Draw ();
-	OOPAssignmentUtils util = new OOPAssignmentUtils();
-
-	ArrayList<GameData> games = new ArrayList<GameData> ();
-	games = util.populate ();
-
-	
-
-	ArrayList<Genre> gameGenre = new ArrayList<Genre> ();
-	gameGenre = util.populateGenre();
-
-	
-	ArrayList<Developer> devs = new ArrayList<Developer> ();
-	devs = util.populateDeveloper();
-
-
-	
-
-	// draw.drawBarChart(games);
-	// draw.drawDeveloperVisualization(games, devs);
-	// draw.drawTrendGraph(games);
-	draw.drawGenreVisualization(gameGenre);
-}
-class Developer {
-	String name;
-	int freq;
-
-	Developer () {
-		name = "";
-		freq = 0;
-	}
-
-	Developer (String line) {
-			name = line;
-			freq = 0;
-	}
-
-	/*
-		Find the most popular dev updated
-			-compare the values in ArrayList<GameData> with the dev name in ArrayList<Developer>
-			-add 1 to the freq variable if it is a match
-			-do a wordle for to show the most popular developer
-	*/
-	
-
-	public ArrayList<Developer> developerFrequency (ArrayList<GameData> gameInfo,
-								  ArrayList<Developer> devs) {
-		for (int i = 0 ; i < gameInfo.size () ; i ++) {
-			for (int j = 0 ; j < devs.size () ; j ++) {
-				if (gameInfo.get(i).developerName.equals (devs.get(j).name)) {
-					devs.get(j).freq ++;
-				}
-			}
-		}
-
-		return devs;
-	}
-
-	public int findMostFreqDeveloper (ArrayList<Developer> devs) {
-		int maxIndex = 0;
-
-		for (int i = 0 ; i < devs.size () ; i ++) {
-			if (devs.get(i).freq > devs.get(maxIndex).freq) {
-				maxIndex = i;
-			}
-		}
-
-		return maxIndex;
-	}
-}
 class Draw {
 
 	public Draw () {
 		
 	}
 
-	public void drawBarChart (ArrayList<GameData> gameData) {
+	void drawBarChart (ArrayList<GameData> gameData) {
 	
 		float border = width * 0.1f;
 		float verticalRange = height - (border * 2.0f);
@@ -147,7 +55,7 @@ class Draw {
 		}
 	}
 
-	public void drawGenreVisualization (ArrayList<Genre> gameGenre) {
+	void drawGenreVisualization (ArrayList<Genre> gameGenre) {
 	
 		//TODO: Come up with icons 
 		//TODO: Replace the ellipses with the icons that i will make later
@@ -190,7 +98,7 @@ class Draw {
 		}
 	}
 
-	public void drawTrendGraph (ArrayList<GameData> gameData) {
+	void drawTrendGraph (ArrayList<GameData> gameData) {
 		//TODO: Put label on the xaxis and put in a key
 		float border = width * 0.1f;
 		float verticalRange = height - (border * 2.0f);
@@ -243,7 +151,7 @@ class Draw {
 		}
 	}
 
-	public void drawFolderIcon () {
+	void drawFolderIcon () {
 		float border = width * 0.05f;
 		float vertRange = height - (border * 2.0f);
 		float horRange = width - (border * 2.0f);
@@ -257,7 +165,7 @@ class Draw {
 		text ("Devloper", (border * 1.05f), border);
 	}
 
-	public void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
+	void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
 									 ArrayList<Developer> devs) {
 		devs = new Developer().developerFrequency (gameInfo, devs);
 		drawFolderIcon ();
@@ -298,119 +206,4 @@ class Draw {
 		fill(255);
 		ellipse (cx, cy, radius, radius);
 	}
-}
-class GameData {
-
-	float criticReviewScore;
-	float userReviewScore;
-	String gameName;
-	String developerName;
-	
-
-	GameData () {
-		criticReviewScore = 0;
-		userReviewScore = 0;
-		gameName = "";
-		developerName = "";
-	};
-
-	GameData (String line) {
-		String[] parts = line.split(",");
-
-		criticReviewScore = Float.parseFloat(parts[0]);
-		userReviewScore = Float.parseFloat(parts[1]);
-		gameName = parts[2];
-		developerName = parts[3];
-	}
-
-	
-}
-
-class Genre {
-	int amount;
-	String genre;
-
-	Genre () {
-		amount = 0;
-		genre = "";
-	}
-
-	Genre (String line) {
-		String[] s = line.split(",");
-		amount = Integer.parseInt(s[0]);
-		genre = s[1];
-	}
-
-	/*
-	TODO: Make some sort of visualsation for the most popular genre of game 
-	TODO: Read in the values of the most popular genre in the file PCGamesGenre.csv
-	TODO: Maybe make an icon for each of the genres myself, gun for action
-
-	*/
-	
-
-	public int sumGenre (ArrayList<Genre> gameGenre) {
-		int sum = 0;
-
-		for (Genre g : gameGenre) {
-			sum += g.amount;
-		}
-		
-		return sum;
-	}
-}
-class OOPAssignmentUtils {
-
-	public OOPAssignmentUtils () {
-		
-	}
-
-	//put all the populate the functions here
-	public ArrayList populateGenre () {
-
-		ArrayList<Genre> genre = new ArrayList<Genre> ();
-		String[] lines = loadStrings("PCGamesGenre.csv");
-
-		for (String s : lines) {
-			Genre values = new Genre (s);
-			genre.add (values);
-		}
-
-		return genre;
-	}
-
-	public ArrayList<GameData> populate () {
-		ArrayList<GameData> gameInfo = new ArrayList<GameData> ();
-
-		String[] arr = loadStrings ("PCGames.csv");
-
-		for (String s : arr) {
-			GameData data = new GameData (s);
-			gameInfo.add (data);
-		}
-
-		return gameInfo;
-	}
-
-	public ArrayList populateDeveloper () {
-		String[] values = loadStrings ("PCGameDevs.csv");
-		ArrayList<Developer> devs = new ArrayList<Developer> ();
-
-		for (String s : values) {
-			Developer dev = new Developer (s);
-			devs.add (dev);
-		}
-
-		return devs;
-	}
-}
-  public void settings() { 	size (1000, 800); }
-  static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "Assignment" };
-    if (passedArgs != null) {
-      PApplet.main(concat(appletArgs, passedArgs));
-    } else {
-      PApplet.main(appletArgs);
-    }
-  }
 }

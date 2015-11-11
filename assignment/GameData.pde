@@ -5,6 +5,14 @@ class GameData {
 	String gameName;
 	String developerName;
 	
+
+	GameData () {
+		criticReviewScore = 0;
+		userReviewScore = 0;
+		gameName = "";
+		developerName = "";
+	};
+
 	GameData (String line) {
 		String[] parts = line.split(",");
 
@@ -14,5 +22,6 @@ class GameData {
 		developerName = parts[3];
 	}
 
+	
 }
 
