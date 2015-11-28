@@ -6,14 +6,16 @@ class GameData {
 	String developerName;
 	
 
-	GameData () {
+	GameData () 
+	{
 		criticReviewScore = 0;
 		userReviewScore = 0;
 		gameName = "";
 		developerName = "";
 	};
 
-	GameData (String line) {
+	GameData (String line) 
+	{
 		String[] parts = line.split(",");
 
 		criticReviewScore = Float.parseFloat(parts[0]);

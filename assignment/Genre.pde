@@ -2,12 +2,14 @@ class Genre {
 	int amount;
 	String genre;
 
-	Genre () {
+	Genre () 
+	{
 		amount = 0;
 		genre = "";
 	}
 
-	Genre (String line) {
+	Genre (String line) 
+	{
 		String[] s = line.split(",");
 		amount = Integer.parseInt(s[0]);
 		genre = s[1];
@@ -21,10 +23,12 @@ class Genre {
 	*/
 	
 
-	int sumGenre (ArrayList<Genre> gameGenre) {
+	int sumGenre (ArrayList<Genre> gameGenre) 
+	{
 		int sum = 0;
 
-		for (Genre g : gameGenre) {
+		for (Genre g : gameGenre) 
+		{
 			sum += g.amount;
 		}
 		

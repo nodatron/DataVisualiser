@@ -20,11 +20,14 @@ class Developer {
 	*/
 	
 
-	ArrayList<Developer> developerFrequency (ArrayList<GameData> gameInfo,
-								  ArrayList<Developer> devs) {
-		for (int i = 0 ; i < gameInfo.size () ; i ++) {
-			for (int j = 0 ; j < devs.size () ; j ++) {
-				if (gameInfo.get(i).developerName.equals (devs.get(j).name)) {
+	ArrayList<Developer> developerFrequency (ArrayList<GameData> gameInfo, ArrayList<Developer> devs) 
+	{
+		for (int i = 0 ; i < gameInfo.size () ; i ++) 
+		{
+			for (int j = 0 ; j < devs.size () ; j ++) 
+			{
+				if (gameInfo.get(i).developerName.equals (devs.get(j).name)) 
+				{
 					devs.get(j).freq ++;
 				}
 			}
@@ -33,11 +36,14 @@ class Developer {
 		return devs;
 	}
 
-	int findMostFreqDeveloper (ArrayList<Developer> devs) {
+	int findMostFreqDeveloper (ArrayList<Developer> devs) 
+	{
 		int maxIndex = 0;
 
-		for (int i = 0 ; i < devs.size () ; i ++) {
-			if (devs.get(i).freq > devs.get(maxIndex).freq) {
+		for (int i = 0 ; i < devs.size () ; i ++) 
+		{
+			if (devs.get(i).freq > devs.get(maxIndex).freq) 
+			{
 				maxIndex = i;
 			}
 		}
