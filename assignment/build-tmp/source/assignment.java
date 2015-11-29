@@ -27,6 +27,8 @@ public void setup()
 	background(255);
 
 	
+	Menu menu = new Menu();
+	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
 	DrawTrendGraph trendGraph = new DrawTrendGraph();
@@ -56,8 +58,16 @@ public void keyPressed()
   keys[keyCode] = true;
 }
 
+boolean isMenu = true;
+
 public void draw()
 {
+	Menu m = new Menu();
+	if(isMenu)
+		draw.get(0).drawVis();
+	else 
+		m.update();
+
 	// background(255);
 	// if(keys[1])
 	// {
@@ -131,13 +141,20 @@ class Draw
 	float horRange;
 
 
-	public Draw () 
+	Draw() 
 	{
 		
 		border = width * 0.1f;
 		vertRange = height - (border * 2.0f);
 		horRange = width - (border * 2.0f);
 
+	}
+
+	Draw(float border)
+	{
+		this.border = border;
+		vertRange = height - (this.border * 2.0f);
+		horRange = width - (this.border * 2.0f);
 	}
 
 	public void drawVis() {}
@@ -592,21 +609,21 @@ class DrawTrendGraph extends Draw
 	{
 		//TODO: Put label on the xaxis and put in a key
 
-		Draw draw = new Draw();
+		//TODO: Need to make the pop up like from the lab
 
 		for (int i = 1; i < games.size (); ++i) 
 		{
 			
 
-			float x1 = (float) map (i - 1, 0, games.size (), draw.border, width - draw.border);
-			float y1 = (float) map (games.get (i - 1).criticReviewScore, 0, 100, height - draw.border, draw.border);
-			float x2 = (float) map (i, 0, (float) games.size (), draw.border, width - draw.border);
-			float y2 = (float) map (games.get (i).criticReviewScore, 0, 100, height - draw.border, draw.border);
+			float x1 = (float) map (i - 1, 0, games.size (), border, width - border);
+			float y1 = (float) map (games.get (i - 1).criticReviewScore, 0, 100, height - border, border);
+			float x2 = (float) map (i, 0, (float) games.size (), border, width - border);
+			float y2 = (float) map (games.get (i).criticReviewScore, 0, 100, height - border, border);
 
-			float x3 = map (i - 1, 0, games.size (), draw.border, width - draw.border);
-			float y3 = map (games.get (i - 1).userReviewScore, 0, 100, height - draw.border, draw.border);
-			float x4 = map (i, 0, games.size (), draw.border, width - draw.border);
-			float y4 = map (games.get (i).userReviewScore, 0, 100, height - draw.border, draw.border);
+			float x3 = map (i - 1, 0, games.size (), border, width - border);
+			float y3 = map (games.get (i - 1).userReviewScore, 0, 100, height - border, border);
+			float x4 = map (i, 0, games.size (), border, width - border);
+			float y4 = map (games.get (i).userReviewScore, 0, 100, height - border, border);
 
 			stroke (0);
 			line (x1, y1, x2, y2);
@@ -616,30 +633,30 @@ class DrawTrendGraph extends Draw
 			//TODO: Figure out a way to make this more appealing to the eye
 			fill (0);
 			if(i % 2 == 0)
-				text (games.get(i).gameName, x1, height - (draw.border * 0.6f));
+				text (games.get(i).gameName, x1, height - (border * 0.6f));
 			else 
-				text (games.get(i).gameName, x1, height - (draw.border * 0.4f));
+				text (games.get(i).gameName, x1, height - (border * 0.4f));
 		}
 
 		stroke(0);
-		line (draw.border, height - draw.border, draw.border, draw.border);
-		line (draw.border, height - draw.border, width - draw.border, height - draw.border);
+		line (border, height - border, border, border);
+		line (border, height - border, width - border, height - border);
 
 		for (int i = 0; i <= games.size (); ++i) 
 		{
-			float xaxisLine = (float) map (i, 0, (float) games.size (), draw.border, width - draw.border);
-			line (xaxisLine, height - draw.border, xaxisLine, height - (draw.border * 0.8f));
+			float xaxisLine = (float) map (i, 0, (float) games.size (), border, width - border);
+			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
 		}
 
 		fill(0);
 		textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, draw.border * 0.5f);
+		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		for (int i = 0; i <= 10; ++i)
 		{
-			float yaxisLine = height - draw.border - ((draw.vertRange / 10.0f) * (float) i);
-			line (draw.border, yaxisLine, draw.border * 0.8f, yaxisLine);
-			text(i * 10, draw.border * 0.6f, yaxisLine);
+			float yaxisLine = height - border - ((vertRange / 10.0f) * (float) i);
+			line (border, yaxisLine, border * 0.8f, yaxisLine);
+			text(i * 10, border * 0.6f, yaxisLine);
 
 		}
 	}
@@ -711,6 +728,97 @@ class Genre {
 		return sum;
 	}
 }
+class Menu extends Draw
+{
+
+	float menuX;
+	float menuY;
+	float menuBorder;
+	float menuBorderDown;
+
+	Menu() 
+	{
+		super();
+		menuX = border;
+		menuY = border;
+		menuBorder = horRange * 0.1f;
+		menuBorderDown = vertRange * 0.1f;
+	}
+
+
+	public void drawVis()
+	{	
+		//Top portion
+		fill(127, 0, 0);
+		rect(0, 0, border, border + (border * 0.5f));
+		rect(width - border, 0, border, border + (border * 0.5f));
+		fill(0, 0, 127);
+		rect(border, 0, horRange, border);
+
+		//Bottom portion
+		fill(127, 0, 0);
+		rect(0, height - (border + (border * 0.5f)), border, border + (border * 0.5f));
+		rect(width - border, height - (border + (border * 0.5f)), border, border + (border * 0.5f));
+		fill(0, 0, 127);
+		rect(border, height - border, horRange, border);
+
+		//Memu Icons
+		fill(255);
+		stroke(0);
+
+
+		//TODO: make all the boxes for the words
+		//TODO: make them link to a vis when it is clicked
+		//TODO: Make it link to a vis when a button is pressed
+		//TODO: Deside on the colours for the menu
+
+		rect(menuX + (menuBorder * 2.0f), menuY + menuBorderDown, menuBorder * 6.0f, menuBorderDown);
+
+		rect(menuX + menuBorder, menuY + (menuBorderDown * 3.0f), menuBorder * 3.0f, menuBorderDown);
+		rect(menuX + (menuBorder * 6.0f), menuY + (menuBorderDown * 3.0f), menuBorder * 3.0f, menuBorderDown);
+
+		rect(menuX + menuBorder, menuY + (menuBorderDown * 6.0f), menuBorder * 3.0f, menuBorderDown);
+		rect(menuX + (menuBorder * 6.0f), menuY + (menuBorderDown * 6.0f), menuBorder * 3.0f, menuBorderDown);
+
+		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
+	}
+
+	public void update()
+	{
+		//Changes the vis being displayed on the screen
+		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) && 
+		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
+		{
+			draw.get(1).drawVis();
+			isMenu = false;
+		}
+		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) && 
+		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
+		{
+			draw.get(2).drawVis();
+			isMenu = false;
+		}
+		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) &&
+		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
+		{
+			draw.get(1).drawVis();	
+			isMenu = false;
+		}
+		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
+		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f))) 
+		{
+			draw.get(2).drawVis();
+			isMenu = false;
+		}
+		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
+		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
+		{
+			draw.get(1).drawVis();
+			isMenu = false;
+		}
+	}
+
+}
 class OOPAssignmentUtils 
 {
 
@@ -763,7 +871,7 @@ class OOPAssignmentUtils
 
 
 }
-  public void settings() { 	size(1000, 800); }
+  public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Assignment" };
     if (passedArgs != null) {

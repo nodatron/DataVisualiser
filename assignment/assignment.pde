@@ -7,10 +7,12 @@ ArrayList<Developer> devs = new ArrayList<Developer> ();
 
 void setup() 
 {
-	size(1000, 800);
+	size(800, 800);
 	background(255);
 
 	
+	Menu menu = new Menu();
+	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
 	DrawTrendGraph trendGraph = new DrawTrendGraph();
@@ -40,8 +42,16 @@ void keyPressed()
   keys[keyCode] = true;
 }
 
+boolean isMenu = true;
+
 void draw()
 {
+	Menu m = new Menu();
+	if(isMenu)
+		draw.get(0).drawVis();
+	else 
+		m.update();
+
 	// background(255);
 	// if(keys[1])
 	// {
