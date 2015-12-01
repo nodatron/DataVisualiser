@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class Assignment extends PApplet {
+public class assignment extends PApplet {
 
 //Please Note parts of this project will only work in processing 3
 
@@ -72,7 +72,7 @@ public void mousePressed()
 		println("menu");
 	}
 	//
-	if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 3.0f))) && 
+	if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 4.0f))) && 
 	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
 	{
 		background(255);
@@ -84,15 +84,17 @@ public void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();	
 		isMenu = false;
 		println("g2");
 	}
 	//
-	if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 3.0f)))) &&
+	if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 4.0f)))) &&
 	   ((mouseY > (m.menuY + (m.menuBorderDown * 6.0f)))) && ((mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))) 
 	{
-		draw.get(1).drawVis();
+		background(255);
+		draw.get(3).drawVis();
 		isMenu = false;
 		println("g3");
 	}
@@ -100,6 +102,7 @@ public void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();
 		isMenu = false;
 		println("g4");
@@ -108,6 +111,7 @@ public void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 3.0f))) && (mouseX < (m.menuX + (m.menuBorder * 7.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 8.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 9.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();
 		isMenu = false;
 		println("g5");
@@ -117,10 +121,10 @@ public void mousePressed()
 
 public void draw()
 {
-	background(255);
-	draw.get(3).drawVis();
-	// if(isMenu)
-	// 	draw.get(0).drawVis();
+	// background(255);
+	// draw.get(3).drawVis();
+	if(isMenu)
+		draw.get(0).drawVis();
 	
 }
 class Developer {
@@ -426,20 +430,20 @@ class DrawAreaGraph extends Draw
 		line(border, height - border, border, border);
 		line(border, height - border, width - border, height - border);
 
-		// for (int i = 0; i <= devs.size(); ++i) 
-		// {
-		// 	float xaxisLine = (float) map(i, 0, (float) devs.size(), border, width - border);
-		// 	line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-		// }
+		for (int i = 0; i <= devs.size(); ++i) 
+		{
+			float xaxisLine = (float) map(i, 0, (float) devs.size(), border, width - border);
+			line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+		}
 
 		fill(0);
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
+		line(border, height * 0.5f, width - border, height * 0.5f);
 		for (int i = 0; i <= 10; ++i)
 		{
-			float h = (height * 0.5f);
-			float yaxisLine = h - ((h / 10.0f) * (float) i);
+			float yaxisLine = (float) map(i, 0, 10, (height * 0.5f), border);
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
 			text(i * 10, border * 0.6f, yaxisLine);
 
@@ -980,7 +984,7 @@ class OOPAssignmentUtils
 }
   public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "Assignment" };
+    String[] appletArgs = new String[] { "assignment" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

@@ -21,7 +21,6 @@ class DrawAreaGraph extends Draw
 
 		//TODO: Need to make the pop up like from the lab
 
-		//TODO: Replace the numbers here with avergae for each dev
 		for (int i = 1; i < devs.size(); ++i) 
 		{
 			
@@ -44,6 +43,15 @@ class DrawAreaGraph extends Draw
 			//TODO: Get the names of the devs along the bottom
 		}
 
+		//bottom part of area graph
+		for (int i = 0 ; i < devs.size() ; i ++) 
+		{
+			float x1 = map(devs.freq, );
+			float x2 = map();
+			float y1 = map();
+			float y2 = map();
+		}
+
 		stroke(0);
 		line(border, height - border, border, border);
 		line(border, height - border, width - border, height - border);
@@ -58,10 +66,10 @@ class DrawAreaGraph extends Draw
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
+		line(border, height * 0.5f, width - border, height * 0.5f);
 		for (int i = 0; i <= 10; ++i)
 		{
-			float h = (height * 0.5f);
-			float yaxisLine = h - ((h / 10.0f) * (float) i);
+			float yaxisLine = (float) map(i, 0, 10, (height * 0.5f), border);
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
 			text(i * 10, border * 0.6f, yaxisLine);
 

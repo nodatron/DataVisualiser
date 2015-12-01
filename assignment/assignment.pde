@@ -56,7 +56,7 @@ void mousePressed()
 		println("menu");
 	}
 	//
-	if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 3.0f))) && 
+	if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 4.0f))) && 
 	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
 	{
 		background(255);
@@ -68,15 +68,17 @@ void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();	
 		isMenu = false;
 		println("g2");
 	}
 	//
-	if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 3.0f)))) &&
+	if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 4.0f)))) &&
 	   ((mouseY > (m.menuY + (m.menuBorderDown * 6.0f)))) && ((mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))) 
 	{
-		draw.get(1).drawVis();
+		background(255);
+		draw.get(3).drawVis();
 		isMenu = false;
 		println("g3");
 	}
@@ -84,6 +86,7 @@ void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();
 		isMenu = false;
 		println("g4");
@@ -92,6 +95,7 @@ void mousePressed()
 	if((mouseX > (m.menuX + (m.menuBorder * 3.0f))) && (mouseX < (m.menuX + (m.menuBorder * 7.0f))) &&
 	   (mouseY > (m.menuY + (m.menuBorderDown * 8.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 9.0f))))
 	{
+		background(255);
 		draw.get(2).drawVis();
 		isMenu = false;
 		println("g5");
@@ -101,9 +105,9 @@ void mousePressed()
 
 void draw()
 {
-	background(255);
-	draw.get(3).drawVis();
-	// if(isMenu)
-	// 	draw.get(0).drawVis();
+	// background(255);
+	// draw.get(3).drawVis();
+	if(isMenu)
+		draw.get(0).drawVis();
 	
 }
