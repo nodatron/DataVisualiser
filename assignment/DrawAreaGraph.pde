@@ -12,6 +12,8 @@ class DrawAreaGraph extends Draw
 
 		Developer dev = new Developer();
 		dev.developerFrequency();
+		int highest = dev.findHighestFreq();
+		println(highest);
 		for(int i = 0 ; i < devs.size() ; i ++)
 		{
 			dev.avgDevScore(devs.get(i).name, i);
@@ -44,34 +46,43 @@ class DrawAreaGraph extends Draw
 		}
 
 		//bottom part of area graph
-		for (int i = 0 ; i < devs.size() ; i ++) 
-		{
-			float x1 = map(devs.freq, );
-			float x2 = map();
-			float y1 = map();
-			float y2 = map();
-		}
-
 		stroke(0);
-		line(border, height - border, border, border);
-		line(border, height - border, width - border, height - border);
-
-		for (int i = 0; i <= devs.size(); ++i) 
+		for (int i = 1 ; i < devs.size() ; i ++) 
 		{
-			float xaxisLine = (float) map(i, 0, (float) devs.size(), border, width - border);
-			line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+			float y1 = map(devs.get(i).freq, 0, highest, height - border, height * 0.5f);
+			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
+			float x1 = map((float) i, 0, devs.size(), border, width - border);
+			float x2 = map((float) i - 1, 0, devs.size(), border, width - border);
+
+			line(x1, y1, x2, y2);
 		}
+
+		//part to show of the info for the graoh when it is hovered over
+		
 
 		fill(0);
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+
+		line(border, border, border, height - border);
+		line(border, height - border, width - border, height - border);
+
+		for (int i = 0 ; i <= highest ; i ++)
+		{
+			float yaxisLine = map((float) i, 0, highest, height - border, height * 0.5f);
+			line(border, yaxisLine, border * 0.8f, yaxisLine);	
+			text(i, border * 0.6f, yaxisLine);
+		}
 
 		line(border, height * 0.5f, width - border, height * 0.5f);
 		for (int i = 0; i <= 10; ++i)
 		{
 			float yaxisLine = (float) map(i, 0, 10, (height * 0.5f), border);
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
-			text(i * 10, border * 0.6f, yaxisLine);
+			if(i != 0)
+			{
+				text(i * 10, border * 0.6f, yaxisLine);
+			}
 
 		}
 	}

@@ -20,6 +20,8 @@ void setup()
 	draw.add(trendGraph);
 	DrawAreaGraph areaGraph = new DrawAreaGraph();
 	draw.add(areaGraph);
+	GenreVis genreVis = new GenreVis();
+	draw.add(genreVis);
 
 
 	// Draw draw = new Draw ();
@@ -87,7 +89,7 @@ void mousePressed()
 	   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
 	{
 		background(255);
-		draw.get(2).drawVis();
+		draw.get(4).drawVis();
 		isMenu = false;
 		println("g4");
 	}

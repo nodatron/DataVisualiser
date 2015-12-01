@@ -1,0 +1,9 @@
+class Icon
+{
+
+	public Icon () 
+	{
+		
+	}
+
+}

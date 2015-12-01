@@ -27,7 +27,7 @@ class Developer {
 	*/
 	
 
-	void developerFrequency () 
+	void developerFrequency() 
 	{
 		for (int i = 0 ; i < games.size () ; i ++) 
 		{
@@ -41,20 +41,19 @@ class Developer {
 		}
 	}
 
-	// int findMostFreqDeveloper () 
-	// {
-	// 	int maxIndex = 0;
+	int findHighestFreq() 
+	{
+		int highest = 0;
 
-	// 	for (int i = 0 ; i < devs.size () ; i ++) 
-	// 	{
-	// 		if (devs.get(i).freq > devs.get(maxIndex).freq) 
-	// 		{
-	// 			maxIndex = i;
-	// 		}
-	// 	}
+		for (Developer d : devs) 
+		{
+			if (d.freq > highest) 
+			{
+				highest = d.freq;			}
+		}
 
-	// 	return maxIndex;
-	// }
+		return highest;
+	}
 
 	//gets the avg score for each developer
 	void avgDevScore(String devName, int pos)

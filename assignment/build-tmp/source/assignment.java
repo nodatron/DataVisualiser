@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class assignment extends PApplet {
+public class Assignment extends PApplet {
 
 //Please Note parts of this project will only work in processing 3
 
@@ -36,6 +36,8 @@ public void setup()
 	draw.add(trendGraph);
 	DrawAreaGraph areaGraph = new DrawAreaGraph();
 	draw.add(areaGraph);
+	GenreVis genreVis = new GenreVis();
+	draw.add(genreVis);
 
 
 	// Draw draw = new Draw ();
@@ -103,7 +105,7 @@ public void mousePressed()
 	   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
 	{
 		background(255);
-		draw.get(2).drawVis();
+		draw.get(4).drawVis();
 		isMenu = false;
 		println("g4");
 	}
@@ -156,7 +158,7 @@ class Developer {
 	*/
 	
 
-	public void developerFrequency () 
+	public void developerFrequency() 
 	{
 		for (int i = 0 ; i < games.size () ; i ++) 
 		{
@@ -170,20 +172,19 @@ class Developer {
 		}
 	}
 
-	// int findMostFreqDeveloper () 
-	// {
-	// 	int maxIndex = 0;
+	public int findHighestFreq() 
+	{
+		int highest = 0;
 
-	// 	for (int i = 0 ; i < devs.size () ; i ++) 
-	// 	{
-	// 		if (devs.get(i).freq > devs.get(maxIndex).freq) 
-	// 		{
-	// 			maxIndex = i;
-	// 		}
-	// 	}
+		for (Developer d : devs) 
+		{
+			if (d.freq > highest) 
+			{
+				highest = d.freq;			}
+		}
 
-	// 	return maxIndex;
-	// }
+		return highest;
+	}
 
 	//gets the avg score for each developer
 	public void avgDevScore(String devName, int pos)
@@ -233,52 +234,7 @@ class Draw
 
 	public void drawVis() {}
 
-	public void drawGenreVisualization (ArrayList<Genre> gameGenre) 
-	{
 	
-		//TODO: Come up with icons 
-		//TODO: Replace the ellipses with the icons that i will make later
-		//	1.Action is a gun with the ammo count as its percentage of the games
-		//	2.Action Adventure is a map with a knife on it 
-		// 	3.Adventure is a map
-		//	4. Strategy is a lighbulb in a head shape
-		// 	5.RPG is a dice with the number as its percentage
-		//	6.Simulation is going to be a stick man
-		//	7.Puzzle will be a few puzzle pieces
-		// 	8. Sport is going to be a ball
-		//  9. MMORPG is going to be a globe thing around the dice(like the RPG one)
-		//need to use map or make a ratio to make the circles/any shape i choose bigger
-		//
-
-		//Not want i want it to be just testing if the other functions work
-		Genre genre = new Genre();
-		Draw draw = new Draw();
-		int sum = genre.sumGenre(gameGenre);
-		draw.horRange = width / 3.0f;
-	 	draw.vertRange = height / 3.0f;
-	 	float radius = width;
-	 	float x = 0.0f;
-	 	float y = draw.vertRange / 2.0f;
-
-		for (int i = 0; i < gameGenre.size (); ++i) {
-
-			if (i % 3 == 0) 
-			{ //FIXME: need to change the hard coding here 
-				x = draw.horRange / 2.0f;
-				//only need y to increase after the first loop
-				if (i > 0) 
-				{
-					y += draw.vertRange;
-				}
-			}
-			float ratio = (float) gameGenre.get(i).amount / (float) sum;
-			fill(random(0, 255), 0, 0);
-			ellipse(x, y, radius * ratio, radius * ratio);
-			fill(255);
-
-			x += draw.horRange; 
-		}
-	}
 
 	
 
@@ -394,6 +350,8 @@ class DrawAreaGraph extends Draw
 
 		Developer dev = new Developer();
 		dev.developerFrequency();
+		int highest = dev.findHighestFreq();
+		println(highest);
 		for(int i = 0 ; i < devs.size() ; i ++)
 		{
 			dev.avgDevScore(devs.get(i).name, i);
@@ -403,7 +361,6 @@ class DrawAreaGraph extends Draw
 
 		//TODO: Need to make the pop up like from the lab
 
-		//TODO: Replace the numbers here with avergae for each dev
 		for (int i = 1; i < devs.size(); ++i) 
 		{
 			
@@ -426,26 +383,44 @@ class DrawAreaGraph extends Draw
 			//TODO: Get the names of the devs along the bottom
 		}
 
+		//bottom part of area graph
 		stroke(0);
-		line(border, height - border, border, border);
-		line(border, height - border, width - border, height - border);
-
-		for (int i = 0; i <= devs.size(); ++i) 
+		for (int i = 1 ; i < devs.size() ; i ++) 
 		{
-			float xaxisLine = (float) map(i, 0, (float) devs.size(), border, width - border);
-			line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+			float y1 = map(devs.get(i).freq, 0, highest, height - border, height * 0.5f);
+			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
+			float x1 = map((float) i, 0, devs.size(), border, width - border);
+			float x2 = map((float) i - 1, 0, devs.size(), border, width - border);
+
+			line(x1, y1, x2, y2);
 		}
+
+		//part to show of the info for the graoh when it is hovered over
+		
 
 		fill(0);
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+
+		line(border, border, border, height - border);
+		line(border, height - border, width - border, height - border);
+
+		for (int i = 0 ; i <= highest ; i ++)
+		{
+			float yaxisLine = map((float) i, 0, highest, height - border, height * 0.5f);
+			line(border, yaxisLine, border * 0.8f, yaxisLine);	
+			text(i, border * 0.6f, yaxisLine);
+		}
 
 		line(border, height * 0.5f, width - border, height * 0.5f);
 		for (int i = 0; i <= 10; ++i)
 		{
 			float yaxisLine = (float) map(i, 0, 10, (height * 0.5f), border);
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
-			text(i * 10, border * 0.6f, yaxisLine);
+			if(i != 0)
+			{
+				text(i * 10, border * 0.6f, yaxisLine);
+			}
 
 		}
 	}
@@ -873,6 +848,75 @@ class Genre {
 		return sum;
 	}
 }
+class GenreVis extends Draw
+{
+
+	float tempX;
+	float tempY;
+	float radius;
+
+	public GenreVis() 
+	{	
+		super();	
+		tempX = 0.0f;
+		tempY = 0.0f;
+		radius = width;	
+	}
+
+	public void drawVis() 
+	{
+	
+		//TODO: Come up with icons 
+		//TODO: Replace the ellipses with the icons that i will make later
+		//	1.Action is a gun with the ammo count as its percentage of the games
+		//	2.Action Adventure is a map with a knife on it 
+		// 	3.Adventure is a map
+		//	4. Strategy is a lighbulb in a head shape
+		// 	5.RPG is a dice with the number as its percentage
+		//	6.Simulation is going to be a stick man
+		//	7.Puzzle will be a few puzzle pieces
+		// 	8. Sport is going to be a ball
+		//  9. MMORPG is going to be a globe thing around the dice(like the RPG one)
+		//need to use map or make a ratio to make the circles/any shape i choose bigger
+		//
+
+		//Not want i want it to be just testing if the other functions work
+		Genre genre = new Genre();
+		Draw draw = new Draw();
+		int sum = genre.sumGenre(gameGenre);
+		horRange = width / 3.0f;
+	 	vertRange = height / 3.0f;
+	 	float radius = width;
+	 	tempX = 0.0f;
+	 	tempY = vertRange / 2.0f;
+
+		for (int i = 0; i < gameGenre.size (); ++i) {
+
+			if (i % 3 == 0) 
+			{ //FIXME: need to change the hard coding here 
+				tempX = horRange / 2.0f;
+				//only need y to increase after the first loop
+				if (i > 0) 
+				{
+					tempY += vertRange;
+				}
+			}
+			float ratio = (float) gameGenre.get(i).amount / (float) sum;
+			fill(random(0, 255), 0, 0);
+			ellipse(tempX, tempY, radius * ratio, radius * ratio);
+			fill(255);
+
+			tempX += horRange; 
+		}
+	}
+}
+// class Icon extends {
+
+// 	public Icon () {
+		
+// 	}
+
+// }
 class Menu extends Draw
 {
 
@@ -984,7 +1028,7 @@ class OOPAssignmentUtils
 }
   public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "assignment" };
+    String[] appletArgs = new String[] { "Assignment" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
