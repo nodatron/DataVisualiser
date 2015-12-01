@@ -20,19 +20,22 @@ ArrayList<Draw> draw = new ArrayList<Draw>();
 ArrayList<GameData> games = new ArrayList<GameData> ();
 ArrayList<Genre> gameGenre = new ArrayList<Genre> ();
 ArrayList<Developer> devs = new ArrayList<Developer> ();
+Menu m;
 
 public void setup() 
 {
 	
 	background(255);
 
-	
+	m = new Menu();
 	Menu menu = new Menu();
 	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
 	DrawTrendGraph trendGraph = new DrawTrendGraph();
 	draw.add(trendGraph);
+	DrawAreaGraph areaGraph = new DrawAreaGraph();
+	draw.add(areaGraph);
 
 
 	// Draw draw = new Draw ();
@@ -43,12 +46,6 @@ public void setup()
 	gameGenre = util.populateGenre();	
 	devs = util.populateDeveloper();
 
-	draw.get(0).drawVis();
-
-	// draw.drawBarChart(games);
-	// draw.drawDeveloperVisualization(games, devs);
-	// draw.drawTrendGraph(games);
-	// draw.drawGenreVisualization(gameGenre);
 }
 
 boolean[] keys = new boolean[512];
@@ -60,36 +57,91 @@ public void keyPressed()
 
 boolean isMenu = true;
 
+
+
+public void mousePressed()
+{
+	println("In function");
+	//top button
+	if((mouseX >= (m.menuX + (m.menuBorder * 2.0f))) && (mouseX <= (m.menuX + (m.menuBorder * 9.0f))) && 
+	   (mouseY >= (m.menuY + m.menuBorderDown)) && (mouseY <= (m.menuY + (m.menuBorderDown * 3.0f))))
+	{
+		background(255);
+		draw.get(0).drawVis();
+		isMenu = true;
+		println("menu");
+	}
+	//
+	if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 3.0f))) && 
+	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
+	{
+		background(255);
+		draw.get(1).drawVis();
+		isMenu = false;
+		println("g1");
+	}
+	//
+	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
+	   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
+	{
+		draw.get(2).drawVis();	
+		isMenu = false;
+		println("g2");
+	}
+	//
+	if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 3.0f)))) &&
+	   ((mouseY > (m.menuY + (m.menuBorderDown * 6.0f)))) && ((mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))) 
+	{
+		draw.get(1).drawVis();
+		isMenu = false;
+		println("g3");
+	}
+	//
+	if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
+	   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
+	{
+		draw.get(2).drawVis();
+		isMenu = false;
+		println("g4");
+	}
+	//
+	if((mouseX > (m.menuX + (m.menuBorder * 3.0f))) && (mouseX < (m.menuX + (m.menuBorder * 7.0f))) &&
+	   (mouseY > (m.menuY + (m.menuBorderDown * 8.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 9.0f))))
+	{
+		draw.get(2).drawVis();
+		isMenu = false;
+		println("g5");
+	}
+}
+
+
 public void draw()
 {
-	Menu m = new Menu();
-	if(isMenu)
-		draw.get(0).drawVis();
-	else 
-		m.update();
-
-	// background(255);
-	// if(keys[1])
-	// {
-	// 	draw.get(0).drawVis(games);
-	// }
-	// if(keys[2])
-	// {
-	// 	draw.get(1).drawVis(games);
-	// }
+	background(255);
+	draw.get(3).drawVis();
+	// if(isMenu)
+	// 	draw.get(0).drawVis();
+	
 }
 class Developer {
+
 	String name;
 	int freq;
+	float avgCriticScore;
+	float avgUserScore;
 
 	Developer () {
 		name = "";
 		freq = 0;
+		avgCriticScore = 0;
+		avgUserScore = 0;
 	}
 
 	Developer (String line) {
-			name = line;
-			freq = 0;
+		name = line;
+		freq = 0;
+		avgCriticScore = 0;
+		avgUserScore = 0;
 	}
 
 	/*
@@ -100,35 +152,53 @@ class Developer {
 	*/
 	
 
-	public ArrayList<Developer> developerFrequency (ArrayList<GameData> gameInfo, ArrayList<Developer> devs) 
+	public void developerFrequency () 
 	{
-		for (int i = 0 ; i < gameInfo.size () ; i ++) 
+		for (int i = 0 ; i < games.size () ; i ++) 
 		{
 			for (int j = 0 ; j < devs.size () ; j ++) 
 			{
-				if (gameInfo.get(i).developerName.equals (devs.get(j).name)) 
+				if (games.get(i).developerName.equals(devs.get(j).name)) 
 				{
 					devs.get(j).freq ++;
 				}
 			}
 		}
-
-		return devs;
 	}
 
-	public int findMostFreqDeveloper (ArrayList<Developer> devs) 
-	{
-		int maxIndex = 0;
+	// int findMostFreqDeveloper () 
+	// {
+	// 	int maxIndex = 0;
 
-		for (int i = 0 ; i < devs.size () ; i ++) 
+	// 	for (int i = 0 ; i < devs.size () ; i ++) 
+	// 	{
+	// 		if (devs.get(i).freq > devs.get(maxIndex).freq) 
+	// 		{
+	// 			maxIndex = i;
+	// 		}
+	// 	}
+
+	// 	return maxIndex;
+	// }
+
+	//gets the avg score for each developer
+	public void avgDevScore(String devName, int pos)
+	{
+		int i = 0;
+		float sumCritic = 0;
+		float sumUser = 0;
+		for(GameData gd : games)
 		{
-			if (devs.get(i).freq > devs.get(maxIndex).freq) 
+			if(gd.developerName.equals(devName))
 			{
-				maxIndex = i;
+				i ++;
+				sumCritic += gd.criticReviewScore;
+				sumUser += gd.userReviewScore;
 			}
 		}
 
-		return maxIndex;
+		devs.get(pos).avgCriticScore = sumCritic / (float) i;
+		devs.get(pos).avgUserScore = sumUser / (float) i;
 	}
 }
 //TODO: Take out all the common variables in these methods and make the class variables
@@ -305,6 +375,77 @@ class Draw
 	// 	fill(255);
 	// 	ellipse (cx, cy, radius, radius);
 	// }
+}
+class DrawAreaGraph extends Draw
+{
+
+
+	DrawAreaGraph () 
+	{
+		super();
+	}
+
+	public void drawVis() 
+	{
+
+		Developer dev = new Developer();
+		dev.developerFrequency();
+		for(int i = 0 ; i < devs.size() ; i ++)
+		{
+			dev.avgDevScore(devs.get(i).name, i);
+		}
+
+		//TODO: Put label on the xaxis and put in a key
+
+		//TODO: Need to make the pop up like from the lab
+
+		//TODO: Replace the numbers here with avergae for each dev
+		for (int i = 1; i < devs.size(); ++i) 
+		{
+			
+
+			float x1 = (float) map(i - 1, 0, devs.size(), border, width - border);
+			float y1 = (float) map(devs.get(i - 1).avgCriticScore, 0, 100, height * 0.5f, border);
+			float x2 = (float) map(i, 0, (float) devs.size (), border, width - border);
+			float y2 = (float) map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
+
+			float x3 = map(i - 1, 0, devs.size(), border, width - border);
+			float y3 = map(devs.get (i - 1).avgUserScore, 0, 100, height * 0.5f, border);
+			float x4 = map(i, 0, devs.size (), border, width - border);
+			float y4 = map(devs.get(i).avgUserScore, 0, 100, height * 0.5f, border);
+
+			stroke (0);
+			line (x1, y1, x2, y2);
+			stroke (0, 255, 0);
+			line(x3, y3, x4, y4);
+
+			//TODO: Get the names of the devs along the bottom
+		}
+
+		stroke(0);
+		line(border, height - border, border, border);
+		line(border, height - border, width - border, height - border);
+
+		// for (int i = 0; i <= devs.size(); ++i) 
+		// {
+		// 	float xaxisLine = (float) map(i, 0, (float) devs.size(), border, width - border);
+		// 	line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+		// }
+
+		fill(0);
+		textAlign(CENTER, CENTER);
+		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+
+		for (int i = 0; i <= 10; ++i)
+		{
+			float h = (height * 0.5f);
+			float yaxisLine = h - ((h / 10.0f) * (float) i);
+			line (border, yaxisLine, border * 0.8f, yaxisLine);
+			text(i * 10, border * 0.6f, yaxisLine);
+
+		}
+	}
+
 }
 class DrawBarChart extends Draw 
 {
@@ -740,6 +881,7 @@ class Menu extends Draw
 	{
 		super();
 		menuX = border;
+		println("Border =" +border);
 		menuY = border;
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = vertRange * 0.1f;
@@ -781,41 +923,6 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 6.0f), menuY + (menuBorderDown * 6.0f), menuBorder * 3.0f, menuBorderDown);
 
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
-	}
-
-	public void update()
-	{
-		//Changes the vis being displayed on the screen
-		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) && 
-		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
-		{
-			draw.get(1).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) && 
-		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
-		{
-			draw.get(2).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
-		{
-			draw.get(1).drawVis();	
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f))) 
-		{
-			draw.get(2).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
-		{
-			draw.get(1).drawVis();
-			isMenu = false;
-		}
 	}
 
 }

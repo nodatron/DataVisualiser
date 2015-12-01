@@ -10,6 +10,7 @@ class Menu extends Draw
 	{
 		super();
 		menuX = border;
+		println("Border =" +border);
 		menuY = border;
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = vertRange * 0.1f;
@@ -51,42 +52,6 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 6.0f), menuY + (menuBorderDown * 6.0f), menuBorder * 3.0f, menuBorderDown);
 
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
-	}
-
-	void update()
-	{
-		//fix this later doesnt change the menu
-		//Changes the vis being displayed on the screen
-		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) && 
-		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
-		{
-			draw.get(1).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) && 
-		   mouseY > (menuY + menuBorderDown) && mouseY < (menuY + (menuBorderDown * 2.0f)))
-		{
-			draw.get(2).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + menuBorder) && mouseX < (menuX + (menuBorder * 4.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
-		{
-			draw.get(1).drawVis();	
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f))) 
-		{
-			draw.get(2).drawVis();
-			isMenu = false;
-		}
-		if(mouseX > (menuX + (menuBorder * 6.0f)) && mouseX < (menuX + (menuBorder * 9.0f)) &&
-		   mouseY > (menuY + (menuBorderDown * 6.0f)) && mouseY < (menuY + (menuBorderDown * 7.0f)))
-		{
-			draw.get(1).drawVis();
-			isMenu = false;
-		}
 	}
 
 }

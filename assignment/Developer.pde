@@ -1,15 +1,22 @@
 class Developer {
+
 	String name;
 	int freq;
+	float avgCriticScore;
+	float avgUserScore;
 
 	Developer () {
 		name = "";
 		freq = 0;
+		avgCriticScore = 0;
+		avgUserScore = 0;
 	}
 
 	Developer (String line) {
-			name = line;
-			freq = 0;
+		name = line;
+		freq = 0;
+		avgCriticScore = 0;
+		avgUserScore = 0;
 	}
 
 	/*
@@ -20,34 +27,52 @@ class Developer {
 	*/
 	
 
-	ArrayList<Developer> developerFrequency (ArrayList<GameData> gameInfo, ArrayList<Developer> devs) 
+	void developerFrequency () 
 	{
-		for (int i = 0 ; i < gameInfo.size () ; i ++) 
+		for (int i = 0 ; i < games.size () ; i ++) 
 		{
 			for (int j = 0 ; j < devs.size () ; j ++) 
 			{
-				if (gameInfo.get(i).developerName.equals (devs.get(j).name)) 
+				if (games.get(i).developerName.equals(devs.get(j).name)) 
 				{
 					devs.get(j).freq ++;
 				}
 			}
 		}
-
-		return devs;
 	}
 
-	int findMostFreqDeveloper (ArrayList<Developer> devs) 
-	{
-		int maxIndex = 0;
+	// int findMostFreqDeveloper () 
+	// {
+	// 	int maxIndex = 0;
 
-		for (int i = 0 ; i < devs.size () ; i ++) 
+	// 	for (int i = 0 ; i < devs.size () ; i ++) 
+	// 	{
+	// 		if (devs.get(i).freq > devs.get(maxIndex).freq) 
+	// 		{
+	// 			maxIndex = i;
+	// 		}
+	// 	}
+
+	// 	return maxIndex;
+	// }
+
+	//gets the avg score for each developer
+	void avgDevScore(String devName, int pos)
+	{
+		int i = 0;
+		float sumCritic = 0;
+		float sumUser = 0;
+		for(GameData gd : games)
 		{
-			if (devs.get(i).freq > devs.get(maxIndex).freq) 
+			if(gd.developerName.equals(devName))
 			{
-				maxIndex = i;
+				i ++;
+				sumCritic += gd.criticReviewScore;
+				sumUser += gd.userReviewScore;
 			}
 		}
 
-		return maxIndex;
+		devs.get(pos).avgCriticScore = sumCritic / (float) i;
+		devs.get(pos).avgUserScore = sumUser / (float) i;
 	}
 }
