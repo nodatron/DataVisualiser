@@ -1,9 +1,0 @@
-class Icon
-{
-
-	public Icon () 
-	{
-		
-	}
-
-}

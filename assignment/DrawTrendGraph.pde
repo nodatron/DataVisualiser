@@ -11,7 +11,7 @@ class DrawTrendGraph extends Draw
 		//TODO: Put label on the xaxis and put in a key
 
 		//TODO: Need to make the pop up like from the lab
-
+		background(255);
 		for (int i = 1; i < games.size (); ++i) 
 		{
 			

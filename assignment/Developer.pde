@@ -19,14 +19,6 @@ class Developer {
 		avgUserScore = 0;
 	}
 
-	/*
-		Find the most popular dev updated
-			-compare the values in ArrayList<GameData> with the dev name in ArrayList<Developer>
-			-add 1 to the freq variable if it is a match
-			-do a wordle for to show the most popular developer
-	*/
-	
-
 	void developerFrequency() 
 	{
 		for (int i = 0 ; i < games.size () ; i ++) 
@@ -49,7 +41,8 @@ class Developer {
 		{
 			if (d.freq > highest) 
 			{
-				highest = d.freq;			}
+				highest = d.freq;			
+			}
 		}
 
 		return highest;

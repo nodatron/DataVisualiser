@@ -10,7 +10,7 @@ class DrawBarChart extends Draw
 	{
 
 		// Draw draw = new Draw();
-
+		background(255);
 		float barWidth = vertRange / games.size();
 		float y = height - border - barWidth; // -barWidth because it draws down from the x,y points
 

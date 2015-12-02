@@ -9,15 +9,13 @@ class DrawAreaGraph extends Draw
 
 	void drawVis() 
 	{
-
-		Developer dev = new Developer();
-		dev.developerFrequency();
-		int highest = dev.findHighestFreq();
-		println(highest);
-		for(int i = 0 ; i < devs.size() ; i ++)
-		{
-			dev.avgDevScore(devs.get(i).name, i);
-		}
+		background(255);
+		//FIXME: Problem with the highest function when you go back to it
+		// Developer dev = new Developer();
+		// dev.developerFrequency();
+		// int highest = dev.findHighestFreq();
+		// println(highest);
+		
 
 		//TODO: Put label on the xaxis and put in a key
 

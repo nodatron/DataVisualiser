@@ -1,3 +1,12 @@
+MOVE THE CALCULATING OF ALL FIELDS IN THE ARRAYLISTS INTO SETUP
+	- AREA GRAPH IS BROKEN ATM
+	-SAME WITH THE NAMES AT THE BOTTOM OF TREND GARPH(BUT THEY WILL BE GONE)
+
+
+
+
+
+
 Assignment is due on the 7th Dec
 
 1. Need to pick a topic for the data visualizations to be on
