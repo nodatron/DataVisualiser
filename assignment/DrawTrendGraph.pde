@@ -31,23 +31,13 @@ class DrawTrendGraph extends Draw
 			stroke (0, 255, 0);
 			line(x3, y3, x4, y4);
 
-			//TODO: Figure out a way to make this more appealing to the eye
-			fill (0);
-			if(i % 2 == 0)
-				text (games.get(i).gameName, x1, height - (border * 0.6f));
-			else 
-				text (games.get(i).gameName, x1, height - (border * 0.4f));
+			//TODO: The same thing done in the lab test make the line appear on the graph
 		}
 
 		stroke(0);
 		line (border, height - border, border, border);
 		line (border, height - border, width - border, height - border);
 
-		for (int i = 0; i <= games.size (); ++i) 
-		{
-			float xaxisLine = (float) map (i, 0, (float) games.size (), border, width - border);
-			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-		}
 
 		fill(0);
 		textAlign(CENTER, CENTER);

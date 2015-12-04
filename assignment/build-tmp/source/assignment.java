@@ -16,21 +16,26 @@ public class Assignment extends PApplet {
 
 //Please Note parts of this project will only work in processing 3
 
+
+
+//FIXME: Using the 0 key to change back is not working
+//FIXME: Use text align to in all vis's and menu to stop the text going weird
+
+
 ArrayList<Draw> draw = new ArrayList<Draw>();
 ArrayList<GameData> games = new ArrayList<GameData> ();
 ArrayList<Genre> gameGenre = new ArrayList<Genre> ();
 ArrayList<Developer> devs = new ArrayList<Developer> ();
 OOPAssignmentUtils util = new OOPAssignmentUtils();
-Menu m;
+Menu menu;
 
 public void setup() 
 {
 	
 	background(255);
 
-	m = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255));
-	// Menu menu = new Menu();
-	draw.add(m);
+	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255));
+	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
 	DrawTrendGraph trendGraph = new DrawTrendGraph();
@@ -40,8 +45,6 @@ public void setup()
 	GenreVis genreVis = new GenreVis();
 	draw.add(genreVis);
 
-
-	// Draw draw = new Draw ();
 	
 
 	
@@ -51,7 +54,6 @@ public void setup()
 
 	Developer dev = new Developer();
 	dev.developerFrequency();
-	int highest = dev.findHighestFreq();
 	for(int i = 0 ; i < devs.size() ; i ++)
 	{
 		dev.avgDevScore(devs.get(i).name, i);
@@ -61,13 +63,9 @@ public void setup()
 
 }
 
-boolean[] keys = new boolean[512];
-
+// boolean[] keys = new boolean[512];
 public void keyPressed()
 {
-  keys[keyCode] = true;
-  // util.updateMenu();
-  util.updateMenu();
 }
 
 boolean isMenu = true;
@@ -82,7 +80,14 @@ public void mousePressed()
 
 public void draw()
 {
-	
+	if(keyPressed)
+  	{
+  		if(key == '0')
+  		{
+  			isMenu = true;
+  			util.updateMenu();
+  		}
+  	}
 }
 class Developer {
 
@@ -287,20 +292,19 @@ class Draw
 class DrawAreaGraph extends Draw
 {
 
+	int highest;
 
 	DrawAreaGraph () 
 	{
 		super();
+		highest = 0;
 	}
 
 	public void drawVis() 
 	{
 		background(255);
-		// Developer dev = new Developer();
-		// dev.developerFrequency();
-		// int highest = dev.findHighestFreq();
-		println(highest);
-		
+		Developer dev = new Developer();
+		highest = dev.findHighestFreq();
 
 		//TODO: Put label on the xaxis and put in a key
 
@@ -414,6 +418,7 @@ class DrawBarChart extends Draw
 		text ("User Review", border + (width * 0.02f), height * 0.075f);
 
 		fill(0);
+		pushMatrix();
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
@@ -422,6 +427,7 @@ class DrawBarChart extends Draw
 			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
 			text(i * 10, xaxisLine, height - (border * 0.6f));
 		}
+		popMatrix();
 	}
 }
 // //TODO: Take out all the common variables in these methods and make the class variables
@@ -695,23 +701,13 @@ class DrawTrendGraph extends Draw
 			stroke (0, 255, 0);
 			line(x3, y3, x4, y4);
 
-			//TODO: Figure out a way to make this more appealing to the eye
-			fill (0);
-			if(i % 2 == 0)
-				text (games.get(i).gameName, x1, height - (border * 0.6f));
-			else 
-				text (games.get(i).gameName, x1, height - (border * 0.4f));
+			//TODO: The same thing done in the lab test make the line appear on the graph
 		}
 
 		stroke(0);
 		line (border, height - border, border, border);
 		line (border, height - border, width - border, height - border);
 
-		for (int i = 0; i <= games.size (); ++i) 
-		{
-			float xaxisLine = (float) map (i, 0, (float) games.size (), border, width - border);
-			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-		}
 
 		fill(0);
 		textAlign(CENTER, CENTER);
@@ -822,15 +818,17 @@ class GenreVis extends Draw //implements Icon
 		for(int i = 0 ; i < gameGenre.size() ; i ++)
 		{
 			tempY = (i + 1) * border;
+			float stringWidth = textWidth(gameGenre.get(i).genre);
 			if(i == 0)
 			{
 				fill(0);
-				text("Game Genre Popularity" , width * 0.5f, tempY);
+				float titleWidth = textWidth("Game Genre Popularity");
+				text("Game Genre Popularity" , ((width * 0.5f) - (titleWidth * 0.5f)), tempY);
 			}
 			else if(i % 2 == 0)
 			{
 				fill(0);
-				text(gameGenre.get(i).genre, ((width * 0.5f) - (border * 2.0f)), tempY);
+				text(gameGenre.get(i).genre, ((width * 0.5f) - (stringWidth * 0.5f)), tempY);
 				text(gameGenre.get(i).amount, width - (border * 2.0f), tempY);
 				fill(255);
 				ellipse(width - (border * 2.0f), tempY, radius, radius);
@@ -839,40 +837,12 @@ class GenreVis extends Draw //implements Icon
 			else
 			{
 				fill(0);
-				text(gameGenre.get(i).genre, width * 0.5f, tempY);
+				text(gameGenre.get(i).genre, ((width * 0.5f) - (stringWidth * 0.5f)), tempY);
 				text(gameGenre.get(i).amount, border * 2.0f, tempY);
 				fill(255);
 				ellipse(border * 2.0f, tempY, radius, radius);
 			}
 		}
-
-
-
-
-		// horRange = width / 3.0f;
-	 // 	vertRange = height / 3.0f;
-	 // 	float radius = width;
-	 // 	tempX = 0.0f;
-	 // 	tempY = vertRange / 2.0f;
-
-		// for (int i = 0; i < gameGenre.size (); ++i) {
-
-		// 	if (i % 3 == 0) 
-		// 	{ //FIXME: need to change the hard coding here 
-		// 		tempX = horRange / 2.0f;
-		// 		//only need y to increase after the first loop
-		// 		if (i > 0) 
-		// 		{
-		// 			tempY += vertRange;
-		// 		}
-		// 	}
-		// 	float ratio = (float) gameGenre.get(i).amount / (float) sum;
-		// 	fill(random(0, 255), 0, 0);
-		// 	ellipse(tempX, tempY, radius * ratio, radius * ratio);
-		// 	fill(255);
-
-		// 	tempX += horRange; 
-		// }
 	}
 }
 class Menu extends Draw
@@ -952,6 +922,7 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
 
 		fill(0);
+		textAlign(CENTER);
 		textSize(27);
 		text("Top 50 PC Games of all Time", menuX + (menuBorder * 2.0f), menuY + ((menuBorder * 2.0f) - halfBorder));
 
@@ -1024,37 +995,32 @@ class OOPAssignmentUtils
 		{
 			draw.get(0).drawVis();
 		}
-		if(keys['0'])
-		{
-			isMenu = true;
-			
-		}
-		if((mouseX > (m.menuX + m.menuBorder)) && (mouseX < (m.menuX + (m.menuBorder * 4.0f))) && 
-		   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
+		if((mouseX > (menu.menuX + menu.menuBorder)) && (mouseX < (menu.menuX + (menu.menuBorder * 4.0f))) && 
+		   (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
 		{
 			draw.get(1).drawVis();
 			isMenu = false;
 			println("g1");
 		}
 		//
-		if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
-		   (mouseY > (m.menuY + (m.menuBorderDown * 3.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 4.0f))))
+		if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
+		   (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
 		{
 			draw.get(2).drawVis();	
 			isMenu = false;
 			println("g2");
 		}
 		//
-		if((mouseX > (m.menuX + m.menuBorder)) && ((mouseX < (m.menuX + (m.menuBorder * 4.0f)))) &&
-		   ((mouseY > (m.menuY + (m.menuBorderDown * 6.0f)))) && ((mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))) 
+		if((mouseX > (menu.menuX + menu.menuBorder)) && ((mouseX < (menu.menuX + (menu.menuBorder * 4.0f)))) &&
+		   ((mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f)))) && ((mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))) 
 		{
 			draw.get(3).drawVis();
 			isMenu = false;
 			println("g3");
 		}
 		//
-		if((mouseX > (m.menuX + (m.menuBorder * 6.0f))) && (mouseX < (m.menuX + (m.menuBorder * 9.0f))) &&
-		   (mouseY > (m.menuY + (m.menuBorderDown * 6.0f))) && (mouseY < (m.menuY + (m.menuBorderDown * 7.0f))))
+		if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
+		   (mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))
 		{
 			draw.get(4).drawVis();
 			isMenu = false;

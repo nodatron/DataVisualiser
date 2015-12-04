@@ -1,21 +1,19 @@
 class DrawAreaGraph extends Draw
 {
 
+	int highest;
 
 	DrawAreaGraph () 
 	{
 		super();
+		highest = 0;
 	}
 
 	void drawVis() 
 	{
 		background(255);
-		//FIXME: Problem with the highest function when you go back to it
-		// Developer dev = new Developer();
-		// dev.developerFrequency();
-		// int highest = dev.findHighestFreq();
-		// println(highest);
-		
+		Developer dev = new Developer();
+		highest = dev.findHighestFreq();
 
 		//TODO: Put label on the xaxis and put in a key
 

@@ -41,6 +41,7 @@ class DrawBarChart extends Draw
 		text ("User Review", border + (width * 0.02f), height * 0.075f);
 
 		fill(0);
+		pushMatrix();
 		textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
@@ -49,5 +50,6 @@ class DrawBarChart extends Draw
 			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
 			text(i * 10, xaxisLine, height - (border * 0.6f));
 		}
+		popMatrix();
 	}
 }

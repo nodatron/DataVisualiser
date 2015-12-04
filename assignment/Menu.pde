@@ -75,6 +75,7 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
 
 		fill(0);
+		textAlign(CENTER);
 		textSize(27);
 		text("Top 50 PC Games of all Time", menuX + (menuBorder * 2.0f), menuY + ((menuBorder * 2.0f) - halfBorder));
 
