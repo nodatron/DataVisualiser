@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class Assignment extends PApplet {
+public class assignment extends PApplet {
 
 //Please Note parts of this project will only work in processing 3
 
@@ -63,13 +63,13 @@ public void setup()
 
 }
 
-// boolean[] keys = new boolean[512];
+// boolean vis[] keys = new boolean vis[512];
 public void keyPressed()
 {
 }
 
 boolean isMenu = true;
-
+boolean[] vis = new boolean[4];
 
 
 public void mousePressed()
@@ -85,8 +85,44 @@ public void draw()
   		if(key == '0')
   		{
   			isMenu = true;
-  			util.updateMenu();
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = false;
   		}
+  		if(key == '1')
+  		{
+  			isMenu = false;
+  			vis[0] = true;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = false;
+  		}
+  		if(key == '2')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = true;
+  			vis[2] = false;
+  			vis[3] = false;
+  		}
+  		if(key == '3')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = true;
+  			vis[3] = false;
+  		}
+  		if(key == '4')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = true;
+  		}
+  		util.updateMenu();
   	}
 }
 class Developer {
@@ -995,43 +1031,60 @@ class OOPAssignmentUtils
 		{
 			draw.get(0).drawVis();
 		}
-		if((mouseX > (menu.menuX + menu.menuBorder)) && (mouseX < (menu.menuX + (menu.menuBorder * 4.0f))) && 
-		   (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
+		if(vis[0])
 		{
 			draw.get(1).drawVis();
-			isMenu = false;
-			println("g1");
 		}
-		//
-		if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
-		   (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
+		if(vis[1])
 		{
-			draw.get(2).drawVis();	
-			isMenu = false;
-			println("g2");
+			draw.get(2).drawVis();
 		}
-		//
-		if((mouseX > (menu.menuX + menu.menuBorder)) && ((mouseX < (menu.menuX + (menu.menuBorder * 4.0f)))) &&
-		   ((mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f)))) && ((mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))) 
+		if(vis[2])
 		{
 			draw.get(3).drawVis();
-			isMenu = false;
-			println("g3");
 		}
-		//
-		if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
-		   (mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))
+		if(vis[3])
 		{
 			draw.get(4).drawVis();
-			isMenu = false;
-			println("g4");
 		}
+
+		// if((mouseX > (menu.menuX + menu.menuBorder)) && (mouseX < (menu.menuX + (menu.menuBorder * 4.0f))) && 
+		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
+		// {
+		// 	draw.get(1).drawVis();
+		// 	isMenu = false;
+		// 	println("g1");
+		// }
+		// //
+		// if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
+		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
+		// {
+		// 	draw.get(2).drawVis();	
+		// 	isMenu = false;
+		// 	println("g2");
+		// }
+		// //
+		// if((mouseX > (menu.menuX + menu.menuBorder)) && ((mouseX < (menu.menuX + (menu.menuBorder * 4.0f)))) &&
+		//    ((mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f)))) && ((mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))) 
+		// {
+		// 	draw.get(3).drawVis();
+		// 	isMenu = false;
+		// 	println("g3");
+		// }
+		// //
+		// if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
+		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))
+		// {
+		// 	draw.get(4).drawVis();
+		// 	isMenu = false;
+		// 	println("g4");
+		// }
 
 	}
 }
   public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "Assignment" };
+    String[] appletArgs = new String[] { "assignment" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

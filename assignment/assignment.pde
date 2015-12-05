@@ -47,13 +47,13 @@ void setup()
 
 }
 
-// boolean[] keys = new boolean[512];
+// boolean vis[] keys = new boolean vis[512];
 void keyPressed()
 {
 }
 
 boolean isMenu = true;
-
+boolean[] vis = new boolean[4];
 
 
 void mousePressed()
@@ -69,7 +69,43 @@ void draw()
   		if(key == '0')
   		{
   			isMenu = true;
-  			util.updateMenu();
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = false;
   		}
+  		if(key == '1')
+  		{
+  			isMenu = false;
+  			vis[0] = true;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = false;
+  		}
+  		if(key == '2')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = true;
+  			vis[2] = false;
+  			vis[3] = false;
+  		}
+  		if(key == '3')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = true;
+  			vis[3] = false;
+  		}
+  		if(key == '4')
+  		{
+  			isMenu = false;
+  			vis[0] = false;
+  			vis[1] = false;
+  			vis[2] = false;
+  			vis[3] = true;
+  		}
+  		util.updateMenu();
   	}
 }
