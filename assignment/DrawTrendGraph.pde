@@ -32,6 +32,7 @@ class DrawTrendGraph extends Draw
 			line(x3, y3, x4, y4);
 
 			//TODO: The same thing done in the lab test make the line appear on the graph
+			drawLine();
 		}
 
 		stroke(0);
@@ -40,7 +41,7 @@ class DrawTrendGraph extends Draw
 
 
 		fill(0);
-		textAlign(CENTER, CENTER);
+		// textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		for (int i = 0; i <= 10; ++i)
@@ -52,4 +53,23 @@ class DrawTrendGraph extends Draw
 		}
 	}
 
+	void drawLine()
+	{
+	  	if (mouseX >= border && mouseX <= width - border)
+	  	{
+		    stroke(255, 0, 0);
+		    fill(255, 0, 0);
+		    line(mouseX, border, mouseX, height - border);
+		    int i = (int) map(mouseX, border, width - border, 0, games.size() - 1);
+		    float y = map(games.get(i).criticReviewScore, 0, 100, height - border, border);
+		    float y2 = map(games.get(i).userReviewScore, 0, 100, height - border, border);
+		    ellipse(mouseX, y, 5, 5);
+		    ellipse(mouseX, y2, 5, 5);
+		    fill(0);
+		    textSize(12);
+		    text("Game: " + games.get(i).gameName, mouseX + 10, y);
+		    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, y + 10);
+		    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, y + 20);
+	  	}
+	}
 }

@@ -1,8 +1,6 @@
 //Please Note parts of this project will only work in processing 3
 
 
-
-//FIXME: Using the 0 key to change back is not working
 //FIXME: Use text align to in all vis's and menu to stop the text going weird
 
 
@@ -13,12 +11,15 @@ ArrayList<Developer> devs = new ArrayList<Developer> ();
 OOPAssignmentUtils util = new OOPAssignmentUtils();
 Menu menu;
 
+boolean isMenu = true;
+boolean[] vis = new boolean[4];
+
 void setup() 
 {
 	size(800, 800);
 	background(255);
 
-	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255));
+	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255), "cgicon.png");
 	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
@@ -47,26 +48,12 @@ void setup()
 
 }
 
-// boolean vis[] keys = new boolean vis[512];
-void keyPressed()
-{
-}
-
-boolean isMenu = true;
-boolean[] vis = new boolean[4];
-
-
-void mousePressed()
-{
-	util.updateMenu();
-}
-
-
 void draw()
 {
+    //need to do it this way because it needs to update constitently
 	if(keyPressed)
-  	{
-  		if(key == '0')
+    {
+        if(key == '0')
   		{
   			isMenu = true;
   			vis[0] = false;
@@ -106,6 +93,28 @@ void draw()
   			vis[2] = false;
   			vis[3] = true;
   		}
-  		util.updateMenu();
-  	}
+    }
+
+    if(isMenu)
+        {
+            draw.get(0).drawVis();
+        }
+        if(vis[0])
+        {
+            draw.get(1).drawVis();
+        }
+        if(vis[1])
+        {
+            draw.get(2).drawVis();
+        }
+        if(vis[2])
+        {
+            draw.get(3).drawVis();
+            // line.drawLine();
+        }
+        if(vis[3])
+        {
+            draw.get(4).drawVis();
+        }
 }
+

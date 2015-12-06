@@ -42,7 +42,7 @@ class DrawBarChart extends Draw
 
 		fill(0);
 		pushMatrix();
-		textAlign(CENTER, CENTER);
+		// textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		for (int i = 0; i <= 10; ++i) {

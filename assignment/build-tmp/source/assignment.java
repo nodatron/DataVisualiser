@@ -12,13 +12,11 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class assignment extends PApplet {
+public class Assignment extends PApplet {
 
 //Please Note parts of this project will only work in processing 3
 
 
-
-//FIXME: Using the 0 key to change back is not working
 //FIXME: Use text align to in all vis's and menu to stop the text going weird
 
 
@@ -29,12 +27,15 @@ ArrayList<Developer> devs = new ArrayList<Developer> ();
 OOPAssignmentUtils util = new OOPAssignmentUtils();
 Menu menu;
 
+boolean isMenu = true;
+boolean[] vis = new boolean[4];
+
 public void setup() 
 {
 	
 	background(255);
 
-	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255));
+	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255), "cgicon.png");
 	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
 	draw.add(barChart);
@@ -63,26 +64,12 @@ public void setup()
 
 }
 
-// boolean vis[] keys = new boolean vis[512];
-public void keyPressed()
-{
-}
-
-boolean isMenu = true;
-boolean[] vis = new boolean[4];
-
-
-public void mousePressed()
-{
-	util.updateMenu();
-}
-
-
 public void draw()
 {
+    //need to do it this way because it needs to update constitently
 	if(keyPressed)
-  	{
-  		if(key == '0')
+    {
+        if(key == '0')
   		{
   			isMenu = true;
   			vis[0] = false;
@@ -122,9 +109,31 @@ public void draw()
   			vis[2] = false;
   			vis[3] = true;
   		}
-  		util.updateMenu();
-  	}
+    }
+
+    if(isMenu)
+        {
+            draw.get(0).drawVis();
+        }
+        if(vis[0])
+        {
+            draw.get(1).drawVis();
+        }
+        if(vis[1])
+        {
+            draw.get(2).drawVis();
+        }
+        if(vis[2])
+        {
+            draw.get(3).drawVis();
+            // line.drawLine();
+        }
+        if(vis[3])
+        {
+            draw.get(4).drawVis();
+        }
 }
+
 class Developer {
 
 	String name;
@@ -222,108 +231,7 @@ class Draw
 	}
 
 	public void drawVis() {}
-
 	
-
-	
-
-	public void drawFolderIcon () 
-	{
-		Draw draw = new Draw();
-		draw.border = width * 0.05f;
-
-		stroke (245, 241, 222);
-		fill (245, 241, 222);
-		rect (draw.border, draw.border, draw.horRange, draw.vertRange);
-		rect (draw.border, draw.border, (width * 0.2f), - (width * 0.02f));
-
-		fill (0);
-		text ("Devloper", (draw.border * 1.05f), draw.border);
-	}
-
-	//TODO: Need to fix this function to work drawing a gear visualisation
-
-	// void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
-	// 								 ArrayList<Developer> devs) 
-	// {
-	// 	devs = new Developer().developerFrequency (gameInfo, devs);
-	// 	for(Developer d : devs) 
-	// 	{
-	// 		print(d.name);
-	// 		println(d.freq);
-
-	// 	}
-	// 	for(GameData g : gameInfo) 
-	//  {
-	// 		println(g.developerName);
-	// 	}
-
-	// 	drawFolderIcon();
-
-	// 	int points = devs.size ();
-	// 	float cx = width / 2.0f;
-	// 	float cy = height / 2.0f;
-	// 	float radius = width * 0.2f;
-	// 	float theataInc = TWO_PI / (3.0f * (float) points);
-	// 	float lastX = cx;
-	// 	float lastY = cy - radius;
-
-	// 	ArrayList<PVector> outsidePoint = new ArrayList<PVector>();
-
-	// 	for (int i = 0; i < points; i++) 
-	//  {
-	// 		float theta = thetaInc * 3;
-	// 	}
-
-	// 	theataInc = TWO_PI / (2.0f * (float) points);
-
-	// 	for (int i = 0 ; i < (points * 2) - 2 ; i++) 
-	//  {
-	// 		//dont want it to draw when mod 2 == 0
-	// 		//NOTE: Drawing at all points for now
-	// 		float theta = (float) i * theataInc;
-			
-
-	// 		//FIXME: The points arent changing 
-	// 		float x = cx + sin(theta) * radius;
-	// 		float y = cy - cos(theta) * radius;
-
-			// stroke (0);
-			// line (x, y, lastX, lastY);
-			// rect (x, y, 20, 20);
-			// if (theta > 0 && theta <= TWO_PI * 0.25f) 
-			// {
-			// 	rect (x, y, 40, -40);
-			// } 
-			// else if (theta > TWO_PI * 0.25f && theta <= TWO_PI * 0.5f) 
-			// {
-			// 	rect (x, y, 40, 40);
-			// } 
-			// else if (theta > TWO_PI * 0.5f && theta <= TWO_PI * 0.75f)  
-			// {
-			// 	rect (x, y, -40, 40);
-			// }
-			// else if (theta > TWO_PI * 0.75f && theta <= TWO_PI) 
-			// {
-			// 	rect (x, y, -40, -40);
-			// }
-
-	// 		//need to get another set of points that will be bigger than the points i have now
-	// 		//use every second point to draw the trianglw from
-
-
-	// 		println(x + ", " + y + ", " + i + ", " + lastX + ", " + lastY);
-	//       	lastX = x;
-	//       	lastY = y; 
-	// 	}
-
-	// 	ellipseMode(RADIUS);
-	// 	fill(155, 111, 155);
-	// 	ellipse (cx, cy, radius, radius);
-	// 	ellipseMode(CENTER);
-	// 	fill(255);
-	// 	ellipse (cx, cy, radius, radius);
-	// }
 }
 class DrawAreaGraph extends Draw
 {
@@ -366,6 +274,7 @@ class DrawAreaGraph extends Draw
 			line(x3, y3, x4, y4);
 
 			//TODO: Get the names of the devs along the bottom
+			drawLine();
 		}
 
 		//bottom part of area graph
@@ -376,15 +285,14 @@ class DrawAreaGraph extends Draw
 			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
 			float x1 = map((float) i, 0, devs.size(), border, width - border);
 			float x2 = map((float) i - 1, 0, devs.size(), border, width - border);
-
 			line(x1, y1, x2, y2);
-		}
 
-		//part to show of the info for the graoh when it is hovered over
+		}
 		
 
 		fill(0);
-		textAlign(CENTER, CENTER);
+		stroke(0);
+		// textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		line(border, border, border, height - border);
@@ -408,6 +316,27 @@ class DrawAreaGraph extends Draw
 			}
 
 		}
+	}
+
+// FIXME: Better name than this
+	public void drawLine()
+	{
+	  	if (mouseX >= border && mouseX <= width - border)
+	  	{
+		    stroke(255, 0, 0);
+		    fill(255, 0, 0);
+		    line(mouseX, border, mouseX, height - border);
+		    int i = (int) map(mouseX, border, width - border, 0, devs.size() - 1);
+		    float y = map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
+		    float y2 = map(devs.get(i).avgUserScore, 0, 100, height * 0.5f, border);
+		    ellipse(mouseX, y, 5, 5);
+		    ellipse(mouseX, y2, 5, 5);
+		    fill(0);
+		    textSize(12);
+		    text("Developer: " + devs.get(i).name, mouseX + 10, y);
+		    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, y + 10);
+		    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, y + 20);
+	  	}
 	}
 
 }
@@ -455,7 +384,7 @@ class DrawBarChart extends Draw
 
 		fill(0);
 		pushMatrix();
-		textAlign(CENTER, CENTER);
+		// textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		for (int i = 0; i <= 10; ++i) {
@@ -738,6 +667,7 @@ class DrawTrendGraph extends Draw
 			line(x3, y3, x4, y4);
 
 			//TODO: The same thing done in the lab test make the line appear on the graph
+			drawLine();
 		}
 
 		stroke(0);
@@ -746,7 +676,7 @@ class DrawTrendGraph extends Draw
 
 
 		fill(0);
-		textAlign(CENTER, CENTER);
+		// textAlign(CENTER, CENTER);
 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
 
 		for (int i = 0; i <= 10; ++i)
@@ -758,6 +688,25 @@ class DrawTrendGraph extends Draw
 		}
 	}
 
+	public void drawLine()
+	{
+	  	if (mouseX >= border && mouseX <= width - border)
+	  	{
+		    stroke(255, 0, 0);
+		    fill(255, 0, 0);
+		    line(mouseX, border, mouseX, height - border);
+		    int i = (int) map(mouseX, border, width - border, 0, games.size() - 1);
+		    float y = map(games.get(i).criticReviewScore, 0, 100, height - border, border);
+		    float y2 = map(games.get(i).userReviewScore, 0, 100, height - border, border);
+		    ellipse(mouseX, y, 5, 5);
+		    ellipse(mouseX, y2, 5, 5);
+		    fill(0);
+		    textSize(12);
+		    text("Game: " + games.get(i).gameName, mouseX + 10, y);
+		    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, y + 10);
+		    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, y + 20);
+	  	}
+	}
 }
 class GameData {
 
@@ -889,39 +838,47 @@ class Menu extends Draw
 	float menuBorder;
 	float menuBorderDown;
 	float halfBorder;
+	float textWidth;
+	float textOffset;
 	int[] menuColours;
+	PImage img;
 
 	Menu() 
 	{
 		super();
 		menuX = border;
-		println("Border =" +border);
 		menuY = border;
 		menuBorder = horRange * 0.1f;
-		menuBorderDown = vertRange * 0.1f;
+		menuBorderDown = (height * 0.5f) * 0.1f;
 		halfBorder = menuBorder * 0.5f;
+		textWidth = 0;
+		textOffset = 0;
 	}
 
-	Menu(int corners, int sides, int buttons, int background) 
+	Menu(int corners, int sides, int buttons, int background, String filename) 
 	{
 		super();
 		menuX = border;
 		println("Border =" +border);
 		menuY = border;
 		menuBorder = horRange * 0.1f;
-		menuBorderDown = vertRange * 0.1f;
-		halfBorder = menuBorder * 0.5f;
+		menuBorderDown = (height * 0.5f) * 0.1f;
+		halfBorder = menuBorderDown * 0.5f;
+		textWidth = 0;
+		textOffset = 0;
 		menuColours = new int[4];
 		menuColours[0] = corners;
 		menuColours[1] = sides;
 		menuColours[2] = buttons;
 		menuColours[3] = background;
+		img = loadImage(filename);
 	}
 
 
 	public void drawVis()
 	{	
-		background(menuColours[3]);
+		// background(img);
+		image(img, 0, 0, width, height);
 		//Top portion
 		fill(menuColours[0]);
 		rect(0, 0, border, border + (border * 0.5f));
@@ -958,17 +915,31 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
 
 		fill(0);
-		textAlign(CENTER);
+		// textAlign(CENTER);
 		textSize(27);
-		text("Top 50 PC Games of all Time", menuX + (menuBorder * 2.0f), menuY + ((menuBorder * 2.0f) - halfBorder));
+		textWidth = textWidth("Top 50 PC Games of all Time");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of all Time", (menuX + (menuBorder * 5.0f)) - textOffset, menuY + ((menuBorderDown * 2.0f) - (halfBorder * 0.5f)));
 
 		
-		textSize(18);
-		text("Review Barchart", menuX + menuBorder, (menuY + (menuBorder * 4.0f) - halfBorder));
-		text("Review Trend Graph", menuX + (menuBorder * 6.0f), (menuY + (menuBorder * 4.0f) - halfBorder));
-		text("Developer Area Graph", menuX + menuBorder, (menuY + (menuBorder * 7.0f) - halfBorder));
-		text("Genre Info Graphic", menuX + (menuBorder * 6.0f), (menuY + (menuBorder * 7.0f) - halfBorder));
-		text("C14339246 | Niall O'Donnell", menuX + (menuBorder * 3.0f), (menuY + (menuBorderDown * 9.0f) - halfBorder));
+		textSize(16);
+		textWidth = textWidth("1. Review Barchart");
+		textOffset = textWidth * 0.5f;
+		text("1 .Review Barchart", (menuX + (menuBorder * 2.5f)) - textOffset, (menuY + (menuBorderDown * 4.0f) - (halfBorder * 0.5f)));
+		textWidth = textWidth("2. Review Trend Graph");
+		textOffset = textWidth * 0.5f;
+		text("2 .Review Trend Graph", (menuX + (menuBorder * 7.5f)) - textOffset, (menuY + (menuBorderDown * 4.0f) - (halfBorder * 0.5f)));
+
+		textWidth = textWidth("3 .Developer Area Graph");
+		textOffset = textWidth * 0.5f;
+		text("3. Developer Area Graph", (menuX + (menuBorder * 2.5f)) - textOffset, (menuY + (menuBorderDown * 7.0f) - (halfBorder * 0.5f)));
+		textWidth = textWidth("4. Genre Info Graphic");
+		textOffset = textWidth * 0.5f;
+		text("4. Genre Info Graphic", (menuX + (menuBorder * 7.5f)) - textOffset, (menuY + (menuBorderDown * 7.0f) - (halfBorder * 0.5f)));
+
+		textWidth = textWidth("C14339246 | Niall O'Donnell");
+		textOffset = textWidth * 0.5f;
+		text("C14339246 | Niall O'Donnell", (menuX + (menuBorder * 5.0f)) - textOffset, (menuY + (menuBorderDown * 9.0f) - (halfBorder * 0.5f)));
 
 	}
 
@@ -1024,67 +995,10 @@ class OOPAssignmentUtils
 
 		return devs;
 	}
-
-	public void updateMenu()
-	{
-		if(isMenu)
-		{
-			draw.get(0).drawVis();
-		}
-		if(vis[0])
-		{
-			draw.get(1).drawVis();
-		}
-		if(vis[1])
-		{
-			draw.get(2).drawVis();
-		}
-		if(vis[2])
-		{
-			draw.get(3).drawVis();
-		}
-		if(vis[3])
-		{
-			draw.get(4).drawVis();
-		}
-
-		// if((mouseX > (menu.menuX + menu.menuBorder)) && (mouseX < (menu.menuX + (menu.menuBorder * 4.0f))) && 
-		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
-		// {
-		// 	draw.get(1).drawVis();
-		// 	isMenu = false;
-		// 	println("g1");
-		// }
-		// //
-		// if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
-		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 3.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 4.0f))))
-		// {
-		// 	draw.get(2).drawVis();	
-		// 	isMenu = false;
-		// 	println("g2");
-		// }
-		// //
-		// if((mouseX > (menu.menuX + menu.menuBorder)) && ((mouseX < (menu.menuX + (menu.menuBorder * 4.0f)))) &&
-		//    ((mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f)))) && ((mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))) 
-		// {
-		// 	draw.get(3).drawVis();
-		// 	isMenu = false;
-		// 	println("g3");
-		// }
-		// //
-		// if((mouseX > (menu.menuX + (menu.menuBorder * 6.0f))) && (mouseX < (menu.menuX + (menu.menuBorder * 9.0f))) &&
-		//    (mouseY > (menu.menuY + (menu.menuBorderDown * 6.0f))) && (mouseY < (menu.menuY + (menu.menuBorderDown * 7.0f))))
-		// {
-		// 	draw.get(4).drawVis();
-		// 	isMenu = false;
-		// 	println("g4");
-		// }
-
-	}
 }
   public void settings() { 	size(800, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "assignment" };
+    String[] appletArgs = new String[] { "Assignment" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
