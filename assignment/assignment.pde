@@ -1,8 +1,5 @@
-//Please Note parts of this project will only work in processing 3
 
-
-//FIXME: Use text align to in all vis's and menu to stop the text going weird
-
+//FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
 
 ArrayList<Draw> draw = new ArrayList<Draw>();
 ArrayList<GameData> games = new ArrayList<GameData> ();
@@ -16,7 +13,7 @@ boolean[] vis = new boolean[4];
 
 void setup() 
 {
-	size(800, 800);
+	size(600, 600);
 	background(255);
 
 	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255), "cgicon.png");
@@ -110,7 +107,6 @@ void draw()
         if(vis[2])
         {
             draw.get(3).drawVis();
-            // line.drawLine();
         }
         if(vis[3])
         {

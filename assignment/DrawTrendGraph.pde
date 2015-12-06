@@ -41,14 +41,18 @@ class DrawTrendGraph extends Draw
 
 
 		fill(0);
-		// textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+		textSize(16);
+		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Scores");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
+		textSize(12);
 		for (int i = 0; i <= 10; ++i)
 		{
 			float yaxisLine = height - border - ((vertRange / 10.0f) * (float) i);
-			line (border, yaxisLine, border * 0.8f, yaxisLine);
-			text(i * 10, border * 0.6f, yaxisLine);
+			line(border, yaxisLine, border * 0.8f, yaxisLine);
+			textWidth = textWidth("" + i * 10);
+			text(i * 10, (border * 0.75f) - textWidth, yaxisLine + 5);
 
 		}
 	}
@@ -66,10 +70,20 @@ class DrawTrendGraph extends Draw
 		    ellipse(mouseX, y, 5, 5);
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
-		    textSize(12);
-		    text("Game: " + games.get(i).gameName, mouseX + 10, y);
-		    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, y + 10);
-		    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, y + 20);
+		    textSize(10);
+		    if(mouseX < width * 0.5f)
+		    {
+			    text("Game: " + games.get(i).gameName, mouseX + 10, height * 0.5f);
+			    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, (height * 0.5f) + 10);
+			    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, (height * 0.5f) + 20);
+			}
+			else
+			{
+				textWidth = textWidth("Game: " + games.get(i).gameName);
+				text("Game: " + games.get(i).gameName, (mouseX - textWidth) - 10, height * 0.5f);
+		    	text("Critic Score: " + games.get(i).criticReviewScore, (mouseX - textWidth) - 10, (height * 0.5f) + 10);
+		    	text("User Score: " + games.get(i).userReviewScore, (mouseX - textWidth) - 10, (height * 0.5f) + 20);
+			}
 	  	}
 	}
 }

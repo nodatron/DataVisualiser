@@ -14,11 +14,8 @@ import java.io.IOException;
 
 public class Assignment extends PApplet {
 
-//Please Note parts of this project will only work in processing 3
 
-
-//FIXME: Use text align to in all vis's and menu to stop the text going weird
-
+//FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
 
 ArrayList<Draw> draw = new ArrayList<Draw>();
 ArrayList<GameData> games = new ArrayList<GameData> ();
@@ -126,7 +123,6 @@ public void draw()
         if(vis[2])
         {
             draw.get(3).drawVis();
-            // line.drawLine();
         }
         if(vis[3])
         {
@@ -212,7 +208,8 @@ class Draw
 	float border;
 	float vertRange;
 	float horRange;
-
+	float textWidth;
+	float textOffset;
 
 	Draw() 
 	{
@@ -220,7 +217,8 @@ class Draw
 		border = width * 0.1f;
 		vertRange = height - (border * 2.0f);
 		horRange = width - (border * 2.0f);
-
+		textWidth = 0;
+		textOffset = 0;
 	}
 
 	Draw(float border)
@@ -228,6 +226,8 @@ class Draw
 		this.border = border;
 		vertRange = height - (this.border * 2.0f);
 		horRange = width - (this.border * 2.0f);
+		textWidth = 0;
+		textOffset = 0;
 	}
 
 	public void drawVis() {}
@@ -292,17 +292,21 @@ class DrawAreaGraph extends Draw
 
 		fill(0);
 		stroke(0);
-		// textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+		textSize(16);
+		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Scores");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
 		line(border, border, border, height - border);
 		line(border, height - border, width - border, height - border);
 
+		textSize(12);
 		for (int i = 0 ; i <= highest ; i ++)
 		{
 			float yaxisLine = map((float) i, 0, highest, height - border, height * 0.5f);
 			line(border, yaxisLine, border * 0.8f, yaxisLine);	
-			text(i, border * 0.6f, yaxisLine);
+			textWidth = textWidth("" + i);
+			text(i, (border * 0.75f) - textWidth, yaxisLine + 5);
 		}
 
 		line(border, height * 0.5f, width - border, height * 0.5f);
@@ -312,7 +316,8 @@ class DrawAreaGraph extends Draw
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
 			if(i != 0)
 			{
-				text(i * 10, border * 0.6f, yaxisLine);
+				textWidth = textWidth("" + i * 10);
+				text(i * 10, (border * 0.75f) - textWidth, yaxisLine + 5);
 			}
 
 		}
@@ -333,9 +338,28 @@ class DrawAreaGraph extends Draw
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
 		    textSize(12);
-		    text("Developer: " + devs.get(i).name, mouseX + 10, y);
-		    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, y + 10);
-		    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, y + 20);
+		    if(mouseX < width * 0.5f)
+		    {
+			    text("Developer: " + devs.get(i).name, mouseX + 10, vertRange * 0.5f);
+			    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, (vertRange * 0.5f) + 10);
+			    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, (vertRange * 0.5f) + 20);
+			}
+			else
+			{
+				textWidth = textWidth("Developer: " + devs.get(i).name);
+				if(textWidth < 150.0f)
+				{
+					text("Developer: " + devs.get(i).name, mouseX - 150, vertRange * 0.5f);
+				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - 150, (vertRange * 0.5f) + 10);
+				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - 150, (vertRange * 0.5f) + 20);
+				}
+				else
+				{
+					text("Developer: " + devs.get(i).name, mouseX - (textWidth + 10), vertRange * 0.5f);
+				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 10);
+				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 20);
+				}
+			}
 	  	}
 	}
 
@@ -356,43 +380,50 @@ class DrawBarChart extends Draw
 		float barWidth = vertRange / games.size();
 		float y = height - border - barWidth; // -barWidth because it draws down from the x,y points
 
-		line (border, height - border, border, border);
-		line (border, height - border, width - border, height - border);
+		line(border, height - border, border, border);
+		line(border, height - border, width - border, height - border);
 
-		for (int i = 0; i < games.size (); ++i) 
+		textSize(10);
+		for(int i = 0 ; i < games.size () ; i ++) 
 		{
-			fill (255, 0, 0);
-			rect (border, y, map (games.get(i).criticReviewScore, 0, 100, border, horRange), barWidth);
-			fill (0, 255, 0);
-			rect (border, y, map (games.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
+			fill(255, 0, 0);
+			rect(border, y, map (games.get(i).criticReviewScore, 0, 100, border, horRange), barWidth);
+			fill(0, 255, 0);
+			rect(border, y, map (games.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
 
 			//text for the y axis
-			fill (0);
-			text (games.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
+			fill(0);
+			text(games.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
 			y -= barWidth;
 		}
 
 		//Key for the graph
-		fill (255, 0, 0);
-		rect (border, height * 0.02f, border, height * 0.02f);
+		textSize(12);
+		fill(255, 0, 0);
+		textWidth = textWidth("Critic Review");
+		rect(0, height * 0.02f, textWidth, height * 0.02f);
 		fill(0);
-		text ("Critic Review", border + (width * 0.02f), height * 0.035f);
-		fill (0, 255, 0);
-		rect (border, height * 0.06f, border, height * 0.02f);
+		text("Critic Review", 0, height * 0.035f);
+		fill(0, 255, 0);
+		rect(0, height * 0.06f, textWidth, height * 0.02f);
 		fill(0);
-		text ("User Review", border + (width * 0.02f), height * 0.075f);
+		text("User Review", 0, height * 0.075f);
 
 		fill(0);
-		pushMatrix();
-		// textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+		textSize(16);
+		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Review Scores");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.6f) - textOffset, border * 0.5f);
 
-		for (int i = 0; i <= 10; ++i) {
+		textSize(10);
+		for(int i = 0 ; i <= 10 ; i ++) 
+		{
 			float xaxisLine = border + ((horRange / 10.0f) * (float) i);
-			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-			text(i * 10, xaxisLine, height - (border * 0.6f));
+			line(xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
+			textWidth = textWidth("" + i * 10);
+			text(i * 10, xaxisLine - (textWidth * 0.5f), (height - (border * 0.6f)) + 5);
 		}
-		popMatrix();
+
 	}
 }
 // //TODO: Take out all the common variables in these methods and make the class variables
@@ -676,14 +707,18 @@ class DrawTrendGraph extends Draw
 
 
 		fill(0);
-		// textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+		textSize(16);
+		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Scores");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
+		textSize(12);
 		for (int i = 0; i <= 10; ++i)
 		{
 			float yaxisLine = height - border - ((vertRange / 10.0f) * (float) i);
-			line (border, yaxisLine, border * 0.8f, yaxisLine);
-			text(i * 10, border * 0.6f, yaxisLine);
+			line(border, yaxisLine, border * 0.8f, yaxisLine);
+			textWidth = textWidth("" + i * 10);
+			text(i * 10, (border * 0.75f) - textWidth, yaxisLine + 5);
 
 		}
 	}
@@ -701,10 +736,20 @@ class DrawTrendGraph extends Draw
 		    ellipse(mouseX, y, 5, 5);
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
-		    textSize(12);
-		    text("Game: " + games.get(i).gameName, mouseX + 10, y);
-		    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, y + 10);
-		    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, y + 20);
+		    textSize(10);
+		    if(mouseX < width * 0.5f)
+		    {
+			    text("Game: " + games.get(i).gameName, mouseX + 10, height * 0.5f);
+			    text("Critic Score: " + games.get(i).criticReviewScore, mouseX + 10, (height * 0.5f) + 10);
+			    text("User Score: " + games.get(i).userReviewScore, mouseX + 10, (height * 0.5f) + 20);
+			}
+			else
+			{
+				textWidth = textWidth("Game: " + games.get(i).gameName);
+				text("Game: " + games.get(i).gameName, (mouseX - textWidth) - 10, height * 0.5f);
+		    	text("Critic Score: " + games.get(i).criticReviewScore, (mouseX - textWidth) - 10, (height * 0.5f) + 10);
+		    	text("User Score: " + games.get(i).userReviewScore, (mouseX - textWidth) - 10, (height * 0.5f) + 20);
+			}
 	  	}
 	}
 }
@@ -838,8 +883,6 @@ class Menu extends Draw
 	float menuBorder;
 	float menuBorderDown;
 	float halfBorder;
-	float textWidth;
-	float textOffset;
 	int[] menuColours;
 	PImage img;
 
@@ -851,8 +894,6 @@ class Menu extends Draw
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = (height * 0.5f) * 0.1f;
 		halfBorder = menuBorder * 0.5f;
-		textWidth = 0;
-		textOffset = 0;
 	}
 
 	Menu(int corners, int sides, int buttons, int background, String filename) 
@@ -864,8 +905,6 @@ class Menu extends Draw
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = (height * 0.5f) * 0.1f;
 		halfBorder = menuBorderDown * 0.5f;
-		textWidth = 0;
-		textOffset = 0;
 		menuColours = new int[4];
 		menuColours[0] = corners;
 		menuColours[1] = sides;
@@ -916,13 +955,13 @@ class Menu extends Draw
 
 		fill(0);
 		// textAlign(CENTER);
-		textSize(27);
+		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of all Time", (menuX + (menuBorder * 5.0f)) - textOffset, menuY + ((menuBorderDown * 2.0f) - (halfBorder * 0.5f)));
 
 		
-		textSize(16);
+		textSize(12);
 		textWidth = textWidth("1. Review Barchart");
 		textOffset = textWidth * 0.5f;
 		text("1 .Review Barchart", (menuX + (menuBorder * 2.5f)) - textOffset, (menuY + (menuBorderDown * 4.0f) - (halfBorder * 0.5f)));
@@ -996,7 +1035,7 @@ class OOPAssignmentUtils
 		return devs;
 	}
 }
-  public void settings() { 	size(800, 800); }
+  public void settings() { 	size(600, 600); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Assignment" };
     if (passedArgs != null) {

@@ -6,8 +6,6 @@ class Menu extends Draw
 	float menuBorder;
 	float menuBorderDown;
 	float halfBorder;
-	float textWidth;
-	float textOffset;
 	color[] menuColours;
 	PImage img;
 
@@ -19,8 +17,6 @@ class Menu extends Draw
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = (height * 0.5f) * 0.1f;
 		halfBorder = menuBorder * 0.5f;
-		textWidth = 0;
-		textOffset = 0;
 	}
 
 	Menu(color corners, color sides, color buttons, color background, String filename) 
@@ -32,8 +28,6 @@ class Menu extends Draw
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = (height * 0.5f) * 0.1f;
 		halfBorder = menuBorderDown * 0.5f;
-		textWidth = 0;
-		textOffset = 0;
 		menuColours = new color[4];
 		menuColours[0] = corners;
 		menuColours[1] = sides;
@@ -84,13 +78,13 @@ class Menu extends Draw
 
 		fill(0);
 		// textAlign(CENTER);
-		textSize(27);
+		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of all Time", (menuX + (menuBorder * 5.0f)) - textOffset, menuY + ((menuBorderDown * 2.0f) - (halfBorder * 0.5f)));
 
 		
-		textSize(16);
+		textSize(12);
 		textWidth = textWidth("1. Review Barchart");
 		textOffset = textWidth * 0.5f;
 		text("1 .Review Barchart", (menuX + (menuBorder * 2.5f)) - textOffset, (menuY + (menuBorderDown * 4.0f) - (halfBorder * 0.5f)));

@@ -57,17 +57,21 @@ class DrawAreaGraph extends Draw
 
 		fill(0);
 		stroke(0);
-		// textAlign(CENTER, CENTER);
-		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
+		textSize(16);
+		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Scores");
+		textOffset = textWidth * 0.5f;
+		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
 		line(border, border, border, height - border);
 		line(border, height - border, width - border, height - border);
 
+		textSize(12);
 		for (int i = 0 ; i <= highest ; i ++)
 		{
 			float yaxisLine = map((float) i, 0, highest, height - border, height * 0.5f);
 			line(border, yaxisLine, border * 0.8f, yaxisLine);	
-			text(i, border * 0.6f, yaxisLine);
+			textWidth = textWidth("" + i);
+			text(i, (border * 0.75f) - textWidth, yaxisLine + 5);
 		}
 
 		line(border, height * 0.5f, width - border, height * 0.5f);
@@ -77,7 +81,8 @@ class DrawAreaGraph extends Draw
 			line (border, yaxisLine, border * 0.8f, yaxisLine);
 			if(i != 0)
 			{
-				text(i * 10, border * 0.6f, yaxisLine);
+				textWidth = textWidth("" + i * 10);
+				text(i * 10, (border * 0.75f) - textWidth, yaxisLine + 5);
 			}
 
 		}
@@ -98,9 +103,28 @@ class DrawAreaGraph extends Draw
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
 		    textSize(12);
-		    text("Developer: " + devs.get(i).name, mouseX + 10, y);
-		    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, y + 10);
-		    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, y + 20);
+		    if(mouseX < width * 0.5f)
+		    {
+			    text("Developer: " + devs.get(i).name, mouseX + 10, vertRange * 0.5f);
+			    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, (vertRange * 0.5f) + 10);
+			    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, (vertRange * 0.5f) + 20);
+			}
+			else
+			{
+				textWidth = textWidth("Developer: " + devs.get(i).name);
+				if(textWidth < 150.0f)
+				{
+					text("Developer: " + devs.get(i).name, mouseX - 150, vertRange * 0.5f);
+				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - 150, (vertRange * 0.5f) + 10);
+				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - 150, (vertRange * 0.5f) + 20);
+				}
+				else
+				{
+					text("Developer: " + devs.get(i).name, mouseX - (textWidth + 10), vertRange * 0.5f);
+				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 10);
+				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 20);
+				}
+			}
 	  	}
 	}
 
