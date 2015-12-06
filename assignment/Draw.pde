@@ -1,8 +1,6 @@
-//TODO: Take out all the common variables in these methods and make the class variables
-
-class Draw 
+//Base class for all the drawing
+abstract class Draw 
 {
-
 	float border;
 	float vertRange;
 	float horRange;
@@ -11,7 +9,6 @@ class Draw
 
 	Draw() 
 	{
-		
 		border = width * 0.1f;
 		vertRange = height - (border * 2.0f);
 		horRange = width - (border * 2.0f);
@@ -28,6 +25,6 @@ class Draw
 		textOffset = 0;
 	}
 
-	void drawVis() {}
+	abstract void drawVis();
 	
 }

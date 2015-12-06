@@ -17,10 +17,14 @@ public class Assignment extends PApplet {
 
 //FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
 
+//Holds list of visualisations
 ArrayList<Draw> draw = new ArrayList<Draw>();
+//Hold the data from the files
 ArrayList<GameData> games = new ArrayList<GameData> ();
 ArrayList<Genre> gameGenre = new ArrayList<Genre> ();
 ArrayList<Developer> devs = new ArrayList<Developer> ();
+
+//using these to call functions
 OOPAssignmentUtils util = new OOPAssignmentUtils();
 Menu menu;
 
@@ -32,6 +36,7 @@ public void setup()
 	
 	background(255);
 
+    //adding the visualisations to the arraylist
 	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255), "cgicon.png");
 	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
@@ -43,9 +48,7 @@ public void setup()
 	GenreVis genreVis = new GenreVis();
 	draw.add(genreVis);
 
-	
-
-	
+	//populating the arraylists with data from the files
 	games = util.populate();	
 	gameGenre = util.populateGenre();	
 	devs = util.populateDeveloper();
@@ -57,12 +60,15 @@ public void setup()
 		dev.avgDevScore(devs.get(i).name, i);
 	}
 
+    //initially drawing the menu
 	draw.get(0).drawVis();
 
 }
 
 public void draw()
 {
+    //Controls for the menu
+
     //need to do it this way because it needs to update constitently
 	if(keyPressed)
     {
@@ -151,6 +157,7 @@ class Developer {
 		avgUserScore = 0;
 	}
 
+	//adds the freq to the dev arraylist
 	public void developerFrequency() 
 	{
 		for (int i = 0 ; i < games.size () ; i ++) 
@@ -165,6 +172,7 @@ class Developer {
 		}
 	}
 
+	//finds the highest frequency
 	public int findHighestFreq() 
 	{
 		int highest = 0;
@@ -180,7 +188,7 @@ class Developer {
 		return highest;
 	}
 
-	//gets the avg score for each developer
+	//gets the average critic/user review score for each developer
 	public void avgDevScore(String devName, int pos)
 	{
 		int i = 0;
@@ -200,11 +208,9 @@ class Developer {
 		devs.get(pos).avgUserScore = sumUser / (float) i;
 	}
 }
-//TODO: Take out all the common variables in these methods and make the class variables
-
-class Draw 
+//Base class for all the drawing
+abstract class Draw 
 {
-
 	float border;
 	float vertRange;
 	float horRange;
@@ -213,7 +219,6 @@ class Draw
 
 	Draw() 
 	{
-		
 		border = width * 0.1f;
 		vertRange = height - (border * 2.0f);
 		horRange = width - (border * 2.0f);
@@ -230,12 +235,11 @@ class Draw
 		textOffset = 0;
 	}
 
-	public void drawVis() {}
+	public abstract void drawVis();
 	
 }
 class DrawAreaGraph extends Draw
 {
-
 	int highest;
 
 	DrawAreaGraph () 
@@ -247,22 +251,21 @@ class DrawAreaGraph extends Draw
 	public void drawVis() 
 	{
 		background(255);
+		//used to call functions
 		Developer dev = new Developer();
 		highest = dev.findHighestFreq();
 
-		//TODO: Put label on the xaxis and put in a key
-
-		//TODO: Need to make the pop up like from the lab
-
+		//Top part of vis
+		//Drawing the trend lines
 		for (int i = 1; i < devs.size(); ++i) 
 		{
-			
-
+			//Critic Trend points
 			float x1 = (float) map(i - 1, 0, devs.size(), border, width - border);
 			float y1 = (float) map(devs.get(i - 1).avgCriticScore, 0, 100, height * 0.5f, border);
 			float x2 = (float) map(i, 0, (float) devs.size (), border, width - border);
 			float y2 = (float) map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
 
+			//User trend points
 			float x3 = map(i - 1, 0, devs.size(), border, width - border);
 			float y3 = map(devs.get (i - 1).avgUserScore, 0, 100, height * 0.5f, border);
 			float x4 = map(i, 0, devs.size (), border, width - border);
@@ -273,14 +276,15 @@ class DrawAreaGraph extends Draw
 			stroke (0, 255, 0);
 			line(x3, y3, x4, y4);
 
-			//TODO: Get the names of the devs along the bottom
+			//draws line from mouseX to xaxis and prints which developer your on
 			drawLine();
 		}
 
-		//bottom part of area graph
+		//bottom part of vis
 		stroke(0);
 		for (int i = 1 ; i < devs.size() ; i ++) 
 		{
+			//points for developer frequency 
 			float y1 = map(devs.get(i).freq, 0, highest, height - border, height * 0.5f);
 			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
 			float x1 = map((float) i, 0, devs.size(), border, width - border);
@@ -289,7 +293,7 @@ class DrawAreaGraph extends Draw
 
 		}
 		
-
+		//title of the vis
 		fill(0);
 		stroke(0);
 		textSize(16);
@@ -297,9 +301,11 @@ class DrawAreaGraph extends Draw
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
+		//draing the axis
 		line(border, border, border, height - border);
 		line(border, height - border, width - border, height - border);
 
+		//labelling the yaxis for the bottom part
 		textSize(12);
 		for (int i = 0 ; i <= highest ; i ++)
 		{
@@ -309,6 +315,7 @@ class DrawAreaGraph extends Draw
 			text(i, (border * 0.75f) - textWidth, yaxisLine + 5);
 		}
 
+		//labelling the yaxis for the top part
 		line(border, height * 0.5f, width - border, height * 0.5f);
 		for (int i = 0; i <= 10; ++i)
 		{
@@ -324,6 +331,7 @@ class DrawAreaGraph extends Draw
 	}
 
 // FIXME: Better name than this
+	//draws line from mouseX to xaxis to show what Developer your on
 	public void drawLine()
 	{
 	  	if (mouseX >= border && mouseX <= width - border)
@@ -338,6 +346,8 @@ class DrawAreaGraph extends Draw
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
 		    textSize(12);
+
+		    //changing which side of the line the text prints on so it remains readable
 		    if(mouseX < width * 0.5f)
 		    {
 			    text("Developer: " + devs.get(i).name, mouseX + 10, vertRange * 0.5f);
@@ -347,6 +357,8 @@ class DrawAreaGraph extends Draw
 			else
 			{
 				textWidth = textWidth("Developer: " + devs.get(i).name);
+
+				//making sure the text doesn't go over the line drawn
 				if(textWidth < 150.0f)
 				{
 					text("Developer: " + devs.get(i).name, mouseX - 150, vertRange * 0.5f);
@@ -372,17 +384,18 @@ class DrawBarChart extends Draw
 		super();
 	}
 
+	//Draw a bar sideways barchart
 	public void drawVis() 
 	{
-
-		// Draw draw = new Draw();
 		background(255);
 		float barWidth = vertRange / games.size();
-		float y = height - border - barWidth; // -barWidth because it draws down from the x,y points
+		float y = height - border - barWidth; // -barWidth because it draws down from the x, y points
 
+		//drawing the axis
 		line(border, height - border, border, border);
 		line(border, height - border, width - border, height - border);
 
+		//drawing the bars
 		textSize(10);
 		for(int i = 0 ; i < games.size () ; i ++) 
 		{
@@ -391,7 +404,7 @@ class DrawBarChart extends Draw
 			fill(0, 255, 0);
 			rect(border, y, map (games.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
 
-			//text for the y axis
+			//labelling the y axis
 			fill(0);
 			text(games.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
 			y -= barWidth;
@@ -914,10 +927,12 @@ class Menu extends Draw
 	}
 
 
+	//draws the menu
 	public void drawVis()
 	{	
-		// background(img);
+
 		image(img, 0, 0, width, height);
+
 		//Top portion
 		fill(menuColours[0]);
 		rect(0, 0, border, border + (border * 0.5f));
@@ -931,16 +946,9 @@ class Menu extends Draw
 		rect(border, 0, horRange, border);
 		rect(border, height - border, horRange, border);
 
-		//Memu Icons
+		//Buttons on the menu
 		fill(255);
 		stroke(0);
-
-
-		//TODO: make all the boxes for the words
-		//TODO: make them link to a vis when it is clicked
-		//TODO: Make it link to a vis when a button is pressed
-		//TODO: Deside on the colours for the menu
-
 		
 		fill(menuColours[3]);
 		rect(menuX + (menuBorder * 2.0f), menuY + menuBorderDown, menuBorder * 6.0f, menuBorderDown);
@@ -954,7 +962,9 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
 
 		fill(0);
-		// textAlign(CENTER);
+
+		//Putting the text in the buttons
+		// textWidth and textOffset are used to get the strings centered
 		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;
@@ -981,9 +991,7 @@ class Menu extends Draw
 		text("C14339246 | Niall O'Donnell", (menuX + (menuBorder * 5.0f)) - textOffset, (menuY + (menuBorderDown * 9.0f) - (halfBorder * 0.5f)));
 
 	}
-
 	
-
 }
 class OOPAssignmentUtils 
 {

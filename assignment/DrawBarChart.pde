@@ -6,17 +6,18 @@ class DrawBarChart extends Draw
 		super();
 	}
 
+	//Draw a bar sideways barchart
 	void drawVis() 
 	{
-
-		// Draw draw = new Draw();
 		background(255);
 		float barWidth = vertRange / games.size();
-		float y = height - border - barWidth; // -barWidth because it draws down from the x,y points
+		float y = height - border - barWidth; // -barWidth because it draws down from the x, y points
 
+		//drawing the axis
 		line(border, height - border, border, border);
 		line(border, height - border, width - border, height - border);
 
+		//drawing the bars
 		textSize(10);
 		for(int i = 0 ; i < games.size () ; i ++) 
 		{
@@ -25,13 +26,13 @@ class DrawBarChart extends Draw
 			fill(0, 255, 0);
 			rect(border, y, map (games.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
 
-			//text for the y axis
+			//labelling the y axis with the names of the games
 			fill(0);
 			text(games.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
 			y -= barWidth;
 		}
 
-		//Key for the graph
+		//Drawing a key for the graph
 		textSize(12);
 		fill(255, 0, 0);
 		textWidth = textWidth("Critic Review");
@@ -43,12 +44,14 @@ class DrawBarChart extends Draw
 		fill(0);
 		text("User Review", 0, height * 0.075f);
 
+		//title of the graph
 		fill(0);
 		textSize(16);
 		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Review Scores");
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.6f) - textOffset, border * 0.5f);
 
+		//labelling the xaxis
 		textSize(10);
 		for(int i = 0 ; i <= 10 ; i ++) 
 		{

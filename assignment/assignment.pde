@@ -1,10 +1,14 @@
 
 //FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
 
+//Holds list of visualisations
 ArrayList<Draw> draw = new ArrayList<Draw>();
+//Hold the data from the files
 ArrayList<GameData> games = new ArrayList<GameData> ();
 ArrayList<Genre> gameGenre = new ArrayList<Genre> ();
 ArrayList<Developer> devs = new ArrayList<Developer> ();
+
+//using these to call functions
 OOPAssignmentUtils util = new OOPAssignmentUtils();
 Menu menu;
 
@@ -16,6 +20,7 @@ void setup()
 	size(600, 600);
 	background(255);
 
+    //adding the visualisations to the arraylist
 	menu = new Menu(color(153, 255, 204), color(0, 204, 0), color(102, 204, 204), color(51, 204, 255), "cgicon.png");
 	draw.add(menu);
 	DrawBarChart barChart = new DrawBarChart();
@@ -27,9 +32,7 @@ void setup()
 	GenreVis genreVis = new GenreVis();
 	draw.add(genreVis);
 
-	
-
-	
+	//populating the arraylists with data from the files
 	games = util.populate();	
 	gameGenre = util.populateGenre();	
 	devs = util.populateDeveloper();
@@ -41,12 +44,15 @@ void setup()
 		dev.avgDevScore(devs.get(i).name, i);
 	}
 
+    //initially drawing the menu
 	draw.get(0).drawVis();
 
 }
 
 void draw()
 {
+    //Controls for the menu
+
     //need to do it this way because it needs to update constitently
 	if(keyPressed)
     {

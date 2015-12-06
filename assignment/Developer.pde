@@ -19,6 +19,7 @@ class Developer {
 		avgUserScore = 0;
 	}
 
+	//adds the freq to the dev arraylist
 	void developerFrequency() 
 	{
 		for (int i = 0 ; i < games.size () ; i ++) 
@@ -33,6 +34,7 @@ class Developer {
 		}
 	}
 
+	//finds the highest frequency
 	int findHighestFreq() 
 	{
 		int highest = 0;
@@ -48,7 +50,7 @@ class Developer {
 		return highest;
 	}
 
-	//gets the avg score for each developer
+	//gets the average critic/user review score for each developer
 	void avgDevScore(String devName, int pos)
 	{
 		int i = 0;

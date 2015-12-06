@@ -37,10 +37,12 @@ class Menu extends Draw
 	}
 
 
+	//draws the menu
 	void drawVis()
 	{	
-		// background(img);
+
 		image(img, 0, 0, width, height);
+
 		//Top portion
 		fill(menuColours[0]);
 		rect(0, 0, border, border + (border * 0.5f));
@@ -54,16 +56,9 @@ class Menu extends Draw
 		rect(border, 0, horRange, border);
 		rect(border, height - border, horRange, border);
 
-		//Memu Icons
+		//Buttons on the menu
 		fill(255);
 		stroke(0);
-
-
-		//TODO: make all the boxes for the words
-		//TODO: make them link to a vis when it is clicked
-		//TODO: Make it link to a vis when a button is pressed
-		//TODO: Deside on the colours for the menu
-
 		
 		fill(menuColours[3]);
 		rect(menuX + (menuBorder * 2.0f), menuY + menuBorderDown, menuBorder * 6.0f, menuBorderDown);
@@ -77,7 +72,9 @@ class Menu extends Draw
 		rect(menuX + (menuBorder * 3.0f), menuY + (menuBorderDown * 8.0f), menuBorder * 4.0f, menuBorderDown);
 
 		fill(0);
-		// textAlign(CENTER);
+
+		//Putting the text in the buttons
+		// textWidth and textOffset are used to get the strings centered
 		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;
@@ -104,7 +101,5 @@ class Menu extends Draw
 		text("C14339246 | Niall O'Donnell", (menuX + (menuBorder * 5.0f)) - textOffset, (menuY + (menuBorderDown * 9.0f) - (halfBorder * 0.5f)));
 
 	}
-
 	
-
 }
