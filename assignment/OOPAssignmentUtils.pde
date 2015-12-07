@@ -1,12 +1,12 @@
+//Contains all the utility functions for the project ie. populating the arraylists
 class OOPAssignmentUtils 
 {
-
+	//default constructor
 	public OOPAssignmentUtils() {}
 
-	//put all the populate the functions here
+	//Populate the arraylist
 	ArrayList<Genre> populateGenre() 
 	{
-
 		ArrayList<Genre> genre = new ArrayList<Genre>();
 		String[] lines = loadStrings("PCGamesGenre.csv");
 
@@ -19,6 +19,7 @@ class OOPAssignmentUtils
 		return genre;
 	}
 
+	//Populate the arraylist
 	ArrayList<GameData> populate() 
 	{
 		ArrayList<GameData> gameInfo = new ArrayList<GameData>();
@@ -34,6 +35,7 @@ class OOPAssignmentUtils
 		return gameInfo;
 	}
 
+	//Populate the arraylist
 	ArrayList<Developer> populateDeveloper() 
 	{
 		String[] values = loadStrings("PCGameDevs.csv");

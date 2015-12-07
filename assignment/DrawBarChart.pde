@@ -19,7 +19,7 @@ class DrawBarChart extends Draw
 
 		//drawing the bars
 		textSize(10);
-		for(int i = 0 ; i < games.size () ; i ++) 
+		for(int i = 0 ; i < games.size() ; i ++) 
 		{
 			fill(255, 0, 0);
 			rect(border, y, map (games.get(i).criticReviewScore, 0, 100, border, horRange), barWidth);

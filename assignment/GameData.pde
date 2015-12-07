@@ -1,3 +1,4 @@
+// Class to hold the data for each game
 class GameData {
 
 	float criticReviewScore;
@@ -12,7 +13,7 @@ class GameData {
 		userReviewScore = 0;
 		gameName = "";
 		developerName = "";
-	};
+	}
 
 	GameData (String line) 
 	{

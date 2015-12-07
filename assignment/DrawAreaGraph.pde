@@ -15,26 +15,32 @@ class DrawAreaGraph extends Draw
 		Developer dev = new Developer();
 		highest = dev.findHighestFreq();
 
+		//key for the graph
+		textSize(12);
+		fill(0);
+		text("Critic Review", 0, height * 0.035f);
+		fill(0, 255, 0);
+		fill(0, 255, 0);
+		text("User Review", 0, height * 0.075f);
+		
 		//Top part of vis
 		//Drawing the trend lines
 		for (int i = 1; i < devs.size(); ++i) 
 		{
 			//Critic Trend points
-			float x1 = (float) map(i - 1, 0, devs.size(), border, width - border);
+			float x1 = (float) map(i - 1, 0, devs.size() - 1, border, width - border);
 			float y1 = (float) map(devs.get(i - 1).avgCriticScore, 0, 100, height * 0.5f, border);
-			float x2 = (float) map(i, 0, (float) devs.size (), border, width - border);
+			float x2 = (float) map(i, 0, (float) devs.size() - 1, border, width - border);
 			float y2 = (float) map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
 
 			//User trend points
-			float x3 = map(i - 1, 0, devs.size(), border, width - border);
 			float y3 = map(devs.get (i - 1).avgUserScore, 0, 100, height * 0.5f, border);
-			float x4 = map(i, 0, devs.size (), border, width - border);
 			float y4 = map(devs.get(i).avgUserScore, 0, 100, height * 0.5f, border);
 
 			stroke (0);
 			line (x1, y1, x2, y2);
 			stroke (0, 255, 0);
-			line(x3, y3, x4, y4);
+			line(x1, y3, x2, y4);
 
 			//draws line from mouseX to xaxis and prints which developer your on
 			drawLine();
@@ -47,8 +53,8 @@ class DrawAreaGraph extends Draw
 			//points for developer frequency 
 			float y1 = map(devs.get(i).freq, 0, highest, height - border, height * 0.5f);
 			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
-			float x1 = map((float) i, 0, devs.size(), border, width - border);
-			float x2 = map((float) i - 1, 0, devs.size(), border, width - border);
+			float x1 = map((float) i, 0, devs.size() - 1, border, width - border);
+			float x2 = map((float) i - 1, 0, devs.size() - 1, border, width - border);
 			line(x1, y1, x2, y2);
 
 		}
@@ -113,6 +119,7 @@ class DrawAreaGraph extends Draw
 			    text("Developer: " + devs.get(i).name, mouseX + 10, vertRange * 0.5f);
 			    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, (vertRange * 0.5f) + 10);
 			    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, (vertRange * 0.5f) + 20);
+			    text("Number of Games: " + devs.get(i).freq, mouseX + 10, (vertRange * 0.5f) + 30);
 			}
 			else
 			{
@@ -124,12 +131,14 @@ class DrawAreaGraph extends Draw
 					text("Developer: " + devs.get(i).name, mouseX - 150, vertRange * 0.5f);
 				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - 150, (vertRange * 0.5f) + 10);
 				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - 150, (vertRange * 0.5f) + 20);
+				    text("Number of Games: " + devs.get(i).freq, mouseX - 150, (vertRange * 0.5f) + 30);
 				}
 				else
 				{
 					text("Developer: " + devs.get(i).name, mouseX - (textWidth + 10), vertRange * 0.5f);
 				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 10);
 				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 20);
+				    text("Number of Games: " + devs.get(i).freq, mouseX - (textWidth + 10), (vertRange * 0.5f) + 30);
 				}
 			}
 	  	}

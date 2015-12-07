@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class Assignment extends PApplet {
 
-
-//FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
+// Data from http://www.metacritic.com/browse/games/score/metascore/all/pc/filtered?sort=desc
+// Only taking the top 50 games from the list as of 25/10/2015
 
 //Holds list of visualisations
 ArrayList<Draw> draw = new ArrayList<Draw>();
@@ -69,7 +69,7 @@ public void draw()
 {
     //Controls for the menu
 
-    //need to do it this way because it needs to update constitently
+    //need to do it this way because it needs to update all the time
 	if(keyPressed)
     {
         if(key == '0')
@@ -113,27 +113,26 @@ public void draw()
   			vis[3] = true;
   		}
     }
-
     if(isMenu)
-        {
-            draw.get(0).drawVis();
-        }
-        if(vis[0])
-        {
-            draw.get(1).drawVis();
-        }
-        if(vis[1])
-        {
-            draw.get(2).drawVis();
-        }
-        if(vis[2])
-        {
-            draw.get(3).drawVis();
-        }
-        if(vis[3])
-        {
-            draw.get(4).drawVis();
-        }
+    {
+        draw.get(0).drawVis();
+    }
+    if(vis[0])
+    {
+        draw.get(1).drawVis();
+    }
+    if(vis[1])
+    {
+        draw.get(2).drawVis();
+    }
+    if(vis[2])
+    {
+        draw.get(3).drawVis();
+    }
+    if(vis[3])
+    {
+        draw.get(4).drawVis();
+    }
 }
 
 class Developer {
@@ -255,26 +254,32 @@ class DrawAreaGraph extends Draw
 		Developer dev = new Developer();
 		highest = dev.findHighestFreq();
 
+		//key for the graph
+		textSize(12);
+		fill(0);
+		text("Critic Review", 0, height * 0.035f);
+		fill(0, 255, 0);
+		fill(0, 255, 0);
+		text("User Review", 0, height * 0.075f);
+		
 		//Top part of vis
 		//Drawing the trend lines
 		for (int i = 1; i < devs.size(); ++i) 
 		{
 			//Critic Trend points
-			float x1 = (float) map(i - 1, 0, devs.size(), border, width - border);
+			float x1 = (float) map(i - 1, 0, devs.size() - 1, border, width - border);
 			float y1 = (float) map(devs.get(i - 1).avgCriticScore, 0, 100, height * 0.5f, border);
-			float x2 = (float) map(i, 0, (float) devs.size (), border, width - border);
+			float x2 = (float) map(i, 0, (float) devs.size() - 1, border, width - border);
 			float y2 = (float) map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
 
 			//User trend points
-			float x3 = map(i - 1, 0, devs.size(), border, width - border);
 			float y3 = map(devs.get (i - 1).avgUserScore, 0, 100, height * 0.5f, border);
-			float x4 = map(i, 0, devs.size (), border, width - border);
 			float y4 = map(devs.get(i).avgUserScore, 0, 100, height * 0.5f, border);
 
 			stroke (0);
 			line (x1, y1, x2, y2);
 			stroke (0, 255, 0);
-			line(x3, y3, x4, y4);
+			line(x1, y3, x2, y4);
 
 			//draws line from mouseX to xaxis and prints which developer your on
 			drawLine();
@@ -287,8 +292,8 @@ class DrawAreaGraph extends Draw
 			//points for developer frequency 
 			float y1 = map(devs.get(i).freq, 0, highest, height - border, height * 0.5f);
 			float y2 = map(devs.get(i - 1).freq, 0, highest, height - border, height * 0.5f);
-			float x1 = map((float) i, 0, devs.size(), border, width - border);
-			float x2 = map((float) i - 1, 0, devs.size(), border, width - border);
+			float x1 = map((float) i, 0, devs.size() - 1, border, width - border);
+			float x2 = map((float) i - 1, 0, devs.size() - 1, border, width - border);
 			line(x1, y1, x2, y2);
 
 		}
@@ -353,6 +358,7 @@ class DrawAreaGraph extends Draw
 			    text("Developer: " + devs.get(i).name, mouseX + 10, vertRange * 0.5f);
 			    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX + 10, (vertRange * 0.5f) + 10);
 			    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX + 10, (vertRange * 0.5f) + 20);
+			    text("Number of Games: " + devs.get(i).freq, mouseX + 10, (vertRange * 0.5f) + 30);
 			}
 			else
 			{
@@ -364,12 +370,14 @@ class DrawAreaGraph extends Draw
 					text("Developer: " + devs.get(i).name, mouseX - 150, vertRange * 0.5f);
 				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - 150, (vertRange * 0.5f) + 10);
 				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - 150, (vertRange * 0.5f) + 20);
+				    text("Number of Games: " + devs.get(i).freq, mouseX - 150, (vertRange * 0.5f) + 30);
 				}
 				else
 				{
 					text("Developer: " + devs.get(i).name, mouseX - (textWidth + 10), vertRange * 0.5f);
 				    text("Avg Critic Score: " + devs.get(i).avgCriticScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 10);
 				    text("Avg User Score: " + devs.get(i).avgUserScore, mouseX - (textWidth + 10), (vertRange * 0.5f) + 20);
+				    text("Number of Games: " + devs.get(i).freq, mouseX - (textWidth + 10), (vertRange * 0.5f) + 30);
 				}
 			}
 	  	}
@@ -397,20 +405,20 @@ class DrawBarChart extends Draw
 
 		//drawing the bars
 		textSize(10);
-		for(int i = 0 ; i < games.size () ; i ++) 
+		for(int i = 0 ; i < games.size() ; i ++) 
 		{
 			fill(255, 0, 0);
 			rect(border, y, map (games.get(i).criticReviewScore, 0, 100, border, horRange), barWidth);
 			fill(0, 255, 0);
 			rect(border, y, map (games.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
 
-			//labelling the y axis
+			//labelling the y axis with the names of the games
 			fill(0);
 			text(games.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
 			y -= barWidth;
 		}
 
-		//Key for the graph
+		//Drawing a key for the graph
 		textSize(12);
 		fill(255, 0, 0);
 		textWidth = textWidth("Critic Review");
@@ -422,12 +430,14 @@ class DrawBarChart extends Draw
 		fill(0);
 		text("User Review", 0, height * 0.075f);
 
+		//title of the graph
 		fill(0);
 		textSize(16);
 		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Review Scores");
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.6f) - textOffset, border * 0.5f);
 
+		//labelling the xaxis
 		textSize(10);
 		for(int i = 0 ; i <= 10 ; i ++) 
 		{
@@ -439,244 +449,6 @@ class DrawBarChart extends Draw
 
 	}
 }
-// //TODO: Take out all the common variables in these methods and make the class variables
-
-// class Draw {
-
-// 	public Draw () {
-		
-// 	}
-
-// 	void drawBarChart (ArrayList<GameData> gameData) {
-	
-// 		float border = width * 0.1f;
-// 		float verticalRange = height - (border * 2.0f);
-// 		float horRange = width - (border * 2.0f);
-// 		float barWidth = verticalRange / gameData.size ();
-// 		float y = height - border - barWidth; // - barwidth because it drwas down from the x,y point down
-
-
-
-// 		line (border, height - border, border, border);
-// 		line (border, height - border, width - border, height - border);
-
-// 		for (int i = 0; i < gameData.size (); ++i) {
-// 			fill (255, 0, 0);
-// 			rect (border, y, map (gameData.get(i).criticReviewScore, 0, 100, border, horRange), barWidth);
-// 			fill (0, 255, 0);
-// 			rect (border, y, map (gameData.get(i).userReviewScore, 0, 100, border, horRange), barWidth);
-
-// 			//text for the y axis
-// 			fill (0);
-// 			text (gameData.get(i).gameName, border * 1.2f, y + (barWidth * 0.9f));
-// 			y -= barWidth;
-// 		}
-
-// 		// for (int i = 0; i <= gameData.size (); ++i) {
-// 		// 	float yaxisLine = height - border - ((float)i * barWidth);
-// 		// 	line (border, yaxisLine, border * 0.8f, yaxisLine);
-// 		// }
-
-// 		//Key for the graph
-// 		fill (255, 0, 0);
-// 		rect (border, height * 0.02f, border, height * 0.02f);
-// 		fill(0);
-// 		text ("Critic Review", border + (width * 0.02f), height * 0.035f);
-// 		fill (0, 255, 0);
-// 		rect (border, height * 0.06f, border, height * 0.02f);
-// 		fill(0);
-// 		text ("User Review", border + (width * 0.02f), height * 0.075f);
-
-// 		fill(0);
-// 		textAlign(CENTER, CENTER);
-// 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
-
-// 		for (int i = 0; i <= 10; ++i) {
-// 			float xaxisLine = border + ((horRange / 10.0f) * (float) i);
-// 			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-// 			text(i * 10, xaxisLine, height - (border * 0.6f));
-// 		}
-// 	}
-
-// 	void drawGenreVisualization (ArrayList<Genre> gameGenre) {
-	
-// 		//TODO: Come up with icons 
-// 		//TODO: Replace the ellipses with the icons that i will make later
-// 		//	1.Action is a gun with the ammo count as its percentage of the games
-// 		//	2.Action Adventure is a map with a knife on it 
-// 		// 	3.Adventure is a map
-// 		//	4. Strategy is a lighbulb in a head shape
-// 		// 	5.RPG is a dice with the number as its percentage
-// 		//	6.Simulation is going to be a stick man
-// 		//	7.Puzzle will be a few puzzle pieces
-// 		// 	8. Sport is going to be a ball
-// 		//  9. MMORPG is going to be a globe thing around the dice(like the RPG one)
-// 		//need to use map or make a ratio to make the circles/any shape i choose bigger
-// 		//
-
-// 		//Not want i want it to be just testing if the other functions work
-// 		Genre genre = new Genre();
-// 		int sum = genre.sumGenre(gameGenre);
-// 	 	float horRange = width / 3.0f;
-// 	 	float vertRange = height / 3.0f;
-// 	 	float radius = width;
-// 	 	float x = 0.0f;
-// 	 	float y = vertRange / 2.0f;
-
-// 		for (int i = 0; i < gameGenre.size (); ++i) {
-
-// 			if (i % 3 == 0) { //FIXME: need to change the hard coding here 
-// 				x = horRange / 2.0f;
-// 				//only need y to increase after the first loop
-// 				if (i > 0) {
-// 					y += vertRange;
-// 				}
-// 			}
-// 			float ratio = (float) gameGenre.get(i).amount / (float) sum;
-// 			fill(random(0, 255), 0, 0);
-// 			ellipse(x, y, radius * ratio, radius * ratio);
-// 			fill(255);
-
-// 			x += horRange; 
-// 		}
-// 	}
-
-// 	void drawTrendGraph (ArrayList<GameData> gameData) {
-// 		//TODO: Put label on the xaxis and put in a key
-// 		float border = width * 0.1f;
-// 		float verticalRange = height - (border * 2.0f);
-// 		float horRange = width - (border * 2.0f);
-
-// 		for (int i = 1; i < gameData.size (); ++i) {
-			
-
-// 			float x1 = (float) map (i - 1, 0, gameData.size (), border, width - border);
-// 			float y1 = (float) map (gameData.get (i - 1).criticReviewScore, 0, 100, height - border, border);
-// 			float x2 = (float) map (i, 0, (float) gameData.size (), border, width - border);
-// 			float y2 = (float) map (gameData.get (i).criticReviewScore, 0, 100, height - border, border);
-
-// 			float x3 = map (i - 1, 0, gameData.size (), border, width - border);
-// 			float y3 = map (gameData.get (i - 1).userReviewScore, 0, 100, height - border, border);
-// 			float x4 = map (i, 0, gameData.size (), border, width - border);
-// 			float y4 = map (gameData.get (i).userReviewScore, 0, 100, height - border, border);
-
-// 			stroke (0);
-// 			line (x1, y1, x2, y2);
-// 			stroke (0, 255, 0);
-// 			line(x3, y3, x4, y4);
-
-// 			//TODO: Figure out a way to make this more appealing to the eye
-// 			fill (0);
-// 			if(i % 2 == 0)
-// 				text (gameData.get(i).gameName, x1, height - (border * 0.6f));
-// 			else 
-// 				text (gameData.get(i).gameName, x1, height - (border * 0.4f));
-// 		}
-
-// 		stroke(0);
-// 		line (border, height - border, border, border);
-// 		line (border, height - border, width - border, height - border);
-
-// 		for (int i = 0; i <= gameData.size (); ++i) {
-// 			float xaxisLine = (float) map (i, 0, (float) gameData.size (), border, width - border);
-// 			line (xaxisLine, height - border, xaxisLine, height - (border * 0.8f));
-// 		}
-
-// 		fill(0);
-// 		textAlign(CENTER, CENTER);
-// 		text("Top 50 PC Games of All Time Critic and User Scores", width / 2.0f, border * 0.5f);
-
-// 		for (int i = 0; i <= 10; ++i) {
-// 			float yaxisLine = height - border - ((verticalRange / 10.0f) * (float) i);
-// 			line (border, yaxisLine, border * 0.8f, yaxisLine);
-// 			text(i * 10, border * 0.6f, yaxisLine);
-
-// 		}
-// 	}
-
-// 	void drawFolderIcon () {
-// 		float border = width * 0.05f;
-// 		float vertRange = height - (border * 2.0f);
-// 		float horRange = width - (border * 2.0f);
-
-// 		stroke (245, 241, 222);
-// 		fill (245, 241, 222);
-// 		rect (border, border, horRange, vertRange);
-// 		rect (border, border, (width * 0.2f), - (width * 0.02f));
-
-// 		fill (0);
-// 		text ("Devloper", (border * 1.05f), border);
-// 	}
-
-// 	void drawDeveloperVisualization (ArrayList<GameData> gameInfo,
-// 									 ArrayList<Developer> devs) {
-// 		devs = new Developer().developerFrequency (gameInfo, devs);
-// 		for(Developer d : devs) {
-// 			print(d.name);
-// 			println(d.freq);
-
-// 		}
-// 		for(GameData g : gameInfo) {
-// 			println(g.developerName);
-// 		}
-// 		drawFolderIcon ();
-
-// 		int points = devs.size ();
-// 		float cx = width / 2.0f;
-// 		float cy = height / 2.0f;
-// 		float radius = width * 0.2f;
-// 		float theataInc = TWO_PI / (3.0f * (float) points);
-// 		float lastX = cx;
-// 		float lastY = cy - radius;
-
-// 		ArrayList<PVector> outsidePoint = new ArrayList<PVector>();
-
-// 		for (int i = 0; i < points; i++) {
-// 			float theta = thetaInc * 3;
-// 		}
-
-// 		theataInc = TWO_PI / (2.0f * (float) points);
-
-// 		for (int i = 0 ; i < (points * 2) - 2 ; i++) {
-// 			//dont want it to draw when mod 2 == 0
-// 			//NOTE: Drawing at all points for now
-// 			float theta = (float) i * theataInc;
-			
-
-// 			//FIXME: The points arent changing 
-// 			float x = cx + sin(theta) * radius;
-// 			float y = cy - cos(theta) * radius;
-
-// 			stroke (0);
-// 			// line (x, y, lastX, lastY);
-// 			// rect (x, y, 20, 20);
-// 			// if (theta > 0 && theta <= TWO_PI * 0.25f) {
-// 			// 	rect (x, y, 40, -40);
-// 			// } else if (theta > TWO_PI * 0.25f && theta <= TWO_PI * 0.5f) {
-// 			// 	rect (x, y, 40, 40);
-// 			// } else if (theta > TWO_PI * 0.5f && theta <= TWO_PI * 0.75f)  {
-// 			// 	rect (x, y, -40, 40);
-// 			// }else if (theta > TWO_PI * 0.75f && theta <= TWO_PI) {
-// 			// 	rect (x, y, -40, -40);
-// 			// }
-
-// 			//need to get another set of points that will be bigger than the points i have now
-// 			//use every second point to draw the trianglw from
-
-
-// 			println(x + ", " + y + ", " + i + ", " + lastX + ", " + lastY);
-// 	      	lastX = x;
-// 	      	lastY = y; 
-// 		}
-
-// 		ellipseMode(RADIUS);
-// 		fill(155, 111, 155);
-// 		ellipse (cx, cy, radius, radius);
-// 		ellipseMode(CENTER);
-// 		fill(255);
-// 		ellipse (cx, cy, radius, radius);
-// 	}
-// }
 class DrawTrendGraph extends Draw
 {
 
@@ -687,44 +459,51 @@ class DrawTrendGraph extends Draw
 
 	public void drawVis() 
 	{
-		//TODO: Put label on the xaxis and put in a key
-
-		//TODO: Need to make the pop up like from the lab
 		background(255);
-		for (int i = 1; i < games.size (); ++i) 
-		{
-			
 
-			float x1 = (float) map (i - 1, 0, games.size (), border, width - border);
+		//Calculates the points and draws the trend lines
+		for (int i = 1; i < games.size(); ++i) 
+		{
+
+			float x1 = (float) map (i - 1, 0, games.size() - 1, border, width - border);
 			float y1 = (float) map (games.get (i - 1).criticReviewScore, 0, 100, height - border, border);
-			float x2 = (float) map (i, 0, (float) games.size (), border, width - border);
+			float x2 = (float) map (i, 0, (float) games.size() - 1, border, width - border);
 			float y2 = (float) map (games.get (i).criticReviewScore, 0, 100, height - border, border);
 
-			float x3 = map (i - 1, 0, games.size (), border, width - border);
 			float y3 = map (games.get (i - 1).userReviewScore, 0, 100, height - border, border);
-			float x4 = map (i, 0, games.size (), border, width - border);
 			float y4 = map (games.get (i).userReviewScore, 0, 100, height - border, border);
 
+			//both have the same x points so no need to calculate them again
 			stroke (0);
 			line (x1, y1, x2, y2);
 			stroke (0, 255, 0);
-			line(x3, y3, x4, y4);
+			line(x1, y3, x2, y4);
 
-			//TODO: The same thing done in the lab test make the line appear on the graph
+			//draws a line down the graph to show what piece of data you are on
 			drawLine();
 		}
 
+		//axis of the graph
 		stroke(0);
 		line (border, height - border, border, border);
 		line (border, height - border, width - border, height - border);
 
+		//key for the graph
+		textSize(12);
+		fill(0);
+		text("Critic Review", 0, height * 0.035f);
+		fill(0, 255, 0);
+		fill(0, 255, 0);
+		text("User Review", 0, height * 0.075f);
 
+		//title of the graph
 		fill(0);
 		textSize(16);
 		textWidth = textWidth("Top 50 PC Games of All Time Critic and User Scores");
 		textOffset = textWidth * 0.5f;
 		text("Top 50 PC Games of All Time Critic and User Scores", (width * 0.5f) - textOffset, border * 0.5f);
 
+		//labelling the yaxis
 		textSize(12);
 		for (int i = 0; i <= 10; ++i)
 		{
@@ -736,6 +515,7 @@ class DrawTrendGraph extends Draw
 		}
 	}
 
+	//draws the line down the middle of the graph
 	public void drawLine()
 	{
 	  	if (mouseX >= border && mouseX <= width - border)
@@ -750,6 +530,7 @@ class DrawTrendGraph extends Draw
 		    ellipse(mouseX, y2, 5, 5);
 		    fill(0);
 		    textSize(10);
+		    // swaps the text over so it doesnt go off the screen
 		    if(mouseX < width * 0.5f)
 		    {
 			    text("Game: " + games.get(i).gameName, mouseX + 10, height * 0.5f);
@@ -766,6 +547,7 @@ class DrawTrendGraph extends Draw
 	  	}
 	}
 }
+// Class to hold the data for each game
 class GameData {
 
 	float criticReviewScore;
@@ -780,7 +562,7 @@ class GameData {
 		userReviewScore = 0;
 		gameName = "";
 		developerName = "";
-	};
+	}
 
 	GameData (String line) 
 	{
@@ -795,36 +577,31 @@ class GameData {
 	
 }
 
-class Genre {
+// Class to hold data about the Genres
+class Genre 
+{
 	int amount;
 	String genre;
 
-	Genre () 
+	Genre() 
 	{
 		amount = 0;
 		genre = "";
 	}
 
-	Genre (String line) 
+	Genre(String line) 
 	{
 		String[] s = line.split(",");
 		amount = Integer.parseInt(s[0]);
 		genre = s[1];
 	}
 
-	/*
-	TODO: Make some sort of visualsation for the most popular genre of game 
-	TODO: Read in the values of the most popular genre in the file PCGamesGenre.csv
-	TODO: Maybe make an icon for each of the genres myself, gun for action
-
-	*/
-	
-
-	public int sumGenre (ArrayList<Genre> gameGenre) 
+	// Calculates the sum of all genres
+	public int sumGenre() 
 	{
 		int sum = 0;
 
-		for (Genre g : gameGenre) 
+		for(Genre g : gameGenre) 
 		{
 			sum += g.amount;
 		}
@@ -832,12 +609,14 @@ class Genre {
 		return sum;
 	}
 }
-class GenreVis extends Draw //implements Icon
+class GenreVis extends Draw
 {
-
 	float tempX;
 	float tempY;
 	float radius;
+	int sum;
+	float ratio;
+	int tsize;
 
 	public GenreVis() 
 	{	
@@ -845,45 +624,72 @@ class GenreVis extends Draw //implements Icon
 		tempX = 0.0f;
 		tempY = 0.0f;
 		radius = border;	
+		sum = 0;
+		ratio = 0;
+		tsize = 26;
 	}
 
+	//draws the vis for the genres
 	public void drawVis() 
 	{
-		background(255);
-		//TODO: Fix the title not being int the center
-		//TODO: Make the Writing scale with a ratio
-		//TODO: Make it colourful
+		background(0, 255, 255);
+		//getting the sum of all the genres
 		Genre genre = new Genre();
-		// Draw draw = new Draw();
-		int sum = genre.sumGenre(gameGenre);
-
+		sum = genre.sumGenre();
 		
+		//need to rescale the border so everything fits
+		border = height * 0.09f;
+
+		fill(0);
+		//title of the vis
+		textSize(36);
+		textWidth = textWidth("Game Genre Popularity");
+		textOffset = textWidth * 0.5f;
+		text("Game Genre Popularity" , ((width * 0.5f) - textOffset), border);
+
+		//draws the main part of the vis
 		for(int i = 0 ; i < gameGenre.size() ; i ++)
 		{
-			tempY = (i + 1) * border;
-			float stringWidth = textWidth(gameGenre.get(i).genre);
-			if(i == 0)
+			//the y value text and shapes are drawn at
+			tempY = (i + 2) * border;
+			
+			//ratio to scale everything by
+			ratio = 2.0f * ((float) gameGenre.get(i).amount / sum);
+
+			//swap between the circle drawn on the left or the right
+			//most of the code here is just to make everything center correctly
+			if(i % 2 == 0)
 			{
-				fill(0);
-				float titleWidth = textWidth("Game Genre Popularity");
-				text("Game Genre Popularity" , ((width * 0.5f) - (titleWidth * 0.5f)), tempY);
-			}
-			else if(i % 2 == 0)
-			{
-				fill(0);
-				text(gameGenre.get(i).genre, ((width * 0.5f) - (stringWidth * 0.5f)), tempY);
-				text(gameGenre.get(i).amount, width - (border * 2.0f), tempY);
+				textSize(tsize + (tsize * ratio));
+
 				fill(255);
-				ellipse(width - (border * 2.0f), tempY, radius, radius);
-				
+				ellipse(width - (border * 2.0f), tempY , radius + (radius * ratio), radius + (radius * ratio));
+
+				fill(0);
+				textWidth = textWidth(gameGenre.get(i).genre);
+				textOffset = textWidth * 0.5f;
+				text(gameGenre.get(i).genre, ((width * 0.5f) - textOffset), tempY + 10);
+
+				textWidth = textWidth("" + gameGenre.get(i).amount);
+				textOffset = textWidth * 0.5f;
+				text(gameGenre.get(i).amount, width - (border * 2.0f) - textOffset, tempY + 10);
 			}
 			else
 			{
-				fill(0);
-				text(gameGenre.get(i).genre, ((width * 0.5f) - (stringWidth * 0.5f)), tempY);
-				text(gameGenre.get(i).amount, border * 2.0f, tempY);
+				textSize(tsize + (tsize * ratio));
+
 				fill(255);
-				ellipse(border * 2.0f, tempY, radius, radius);
+				ellipse(border * 2.0f, tempY, radius + (radius * ratio), radius + (radius * ratio));
+
+				fill(0);
+				textWidth = textWidth(gameGenre.get(i).genre);
+				textOffset = textWidth * 0.5f;
+				text(gameGenre.get(i).genre, ((width * 0.5f) - textOffset), tempY + 10);
+
+				textWidth = textWidth("" + gameGenre.get(i).amount);
+				textOffset = textWidth * 0.5f;
+				text(gameGenre.get(i).amount, (border * 2.0f) - textOffset, tempY + 10);
+				
 			}
 		}
 	}
@@ -930,7 +736,7 @@ class Menu extends Draw
 	//draws the menu
 	public void drawVis()
 	{	
-
+		//print the image
 		image(img, 0, 0, width, height);
 
 		//Top portion
@@ -963,8 +769,8 @@ class Menu extends Draw
 
 		fill(0);
 
-		//Putting the text in the buttons
-		// textWidth and textOffset are used to get the strings centered
+		// Putting the text in the buttons
+		// textWidth and textOffset are used to get the text centered
 		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;

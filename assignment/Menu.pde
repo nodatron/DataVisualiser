@@ -23,7 +23,6 @@ class Menu extends Draw
 	{
 		super();
 		menuX = border;
-		println("Border =" +border);
 		menuY = border;
 		menuBorder = horRange * 0.1f;
 		menuBorderDown = (height * 0.5f) * 0.1f;
@@ -40,7 +39,7 @@ class Menu extends Draw
 	//draws the menu
 	void drawVis()
 	{	
-
+		//print the image
 		image(img, 0, 0, width, height);
 
 		//Top portion
@@ -73,8 +72,8 @@ class Menu extends Draw
 
 		fill(0);
 
-		//Putting the text in the buttons
-		// textWidth and textOffset are used to get the strings centered
+		// Putting the text in the buttons
+		// textWidth and textOffset are used to get the text centered
 		textSize(18);
 		textWidth = textWidth("Top 50 PC Games of all Time");
 		textOffset = textWidth * 0.5f;

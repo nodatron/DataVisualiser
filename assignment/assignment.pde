@@ -1,5 +1,5 @@
-
-//FIXME: Area Graph and Trend Graph dont go the full way to the end of the graphs
+// Data from http://www.metacritic.com/browse/games/score/metascore/all/pc/filtered?sort=desc
+// Only taking the top 50 games from the list as of 25/10/2015
 
 //Holds list of visualisations
 ArrayList<Draw> draw = new ArrayList<Draw>();
@@ -53,7 +53,7 @@ void draw()
 {
     //Controls for the menu
 
-    //need to do it this way because it needs to update constitently
+    //need to do it this way because it needs to update all the time
 	if(keyPressed)
     {
         if(key == '0')
@@ -97,26 +97,25 @@ void draw()
   			vis[3] = true;
   		}
     }
-
     if(isMenu)
-        {
-            draw.get(0).drawVis();
-        }
-        if(vis[0])
-        {
-            draw.get(1).drawVis();
-        }
-        if(vis[1])
-        {
-            draw.get(2).drawVis();
-        }
-        if(vis[2])
-        {
-            draw.get(3).drawVis();
-        }
-        if(vis[3])
-        {
-            draw.get(4).drawVis();
-        }
+    {
+        draw.get(0).drawVis();
+    }
+    if(vis[0])
+    {
+        draw.get(1).drawVis();
+    }
+    if(vis[1])
+    {
+        draw.get(2).drawVis();
+    }
+    if(vis[2])
+    {
+        draw.get(3).drawVis();
+    }
+    if(vis[3])
+    {
+        draw.get(4).drawVis();
+    }
 }
 
