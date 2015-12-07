@@ -67,16 +67,21 @@ class DrawTrendGraph extends Draw
 	//draws the line down the middle of the graph
 	void drawLine()
 	{
+		//checks if it is within the borders of the graph
 	  	if (mouseX >= border && mouseX <= width - border)
 	  	{
 		    stroke(255, 0, 0);
 		    fill(255, 0, 0);
 		    line(mouseX, border, mouseX, height - border);
+		    //calculates i based on the position of the mouse
 		    int i = (int) map(mouseX, border, width - border, 0, games.size() - 1);
+
 		    float y = map(games.get(i).criticReviewScore, 0, 100, height - border, border);
 		    float y2 = map(games.get(i).userReviewScore, 0, 100, height - border, border);
+
 		    ellipse(mouseX, y, 5, 5);
 		    ellipse(mouseX, y2, 5, 5);
+		    
 		    fill(0);
 		    textSize(10);
 		    // swaps the text over so it doesnt go off the screen

@@ -96,20 +96,24 @@ class DrawAreaGraph extends Draw
 		}
 	}
 
-// FIXME: Better name than this
 	//draws line from mouseX to xaxis to show what Developer your on
 	void drawLine()
 	{
+		//if the mouse is within the borders of the graph
 	  	if (mouseX >= border && mouseX <= width - border)
 	  	{
 		    stroke(255, 0, 0);
 		    fill(255, 0, 0);
+		    //i is calculated based on the mouse position
 		    line(mouseX, border, mouseX, height - border);
+
 		    int i = (int) map(mouseX, border, width - border, 0, devs.size() - 1);
 		    float y = map(devs.get(i).avgCriticScore, 0, 100, height * 0.5f, border);
 		    float y2 = map(devs.get(i).avgUserScore, 0, 100, height * 0.5f, border);
+
 		    ellipse(mouseX, y, 5, 5);
 		    ellipse(mouseX, y2, 5, 5);
+
 		    fill(0);
 		    textSize(12);
 
